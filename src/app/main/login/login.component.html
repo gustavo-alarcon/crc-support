@@ -1,0 +1,25 @@
+<div style="text-align: right;">
+    <button mat-icon-button mat-dialog-close>
+        <mat-icon>close</mat-icon>
+    </button>
+</div>
+<p style="text-align: center;margin-top: 0; margin-bottom: 2em;">Sign in to Customer Service</p>
+<mat-dialog-content>
+    <form [formGroup]="dataFormGroup">
+        <mat-form-field style="width: 100%" appearance="outline">
+            <mat-label>Email</mat-label>
+            <input matInput type="text" formControlName="email" placeholder="Email" autocomplete="off">
+            <mat-error>Usuario requerido *</mat-error>
+        </mat-form-field>
+        <mat-form-field style="width: 100%" appearance="outline">
+            <mat-label>Password</mat-label>
+            <input matInput type="password" formControlName="pass" placeholder="***" autocomplete="off">
+            <mat-error>Contraseña requerida *</mat-error>
+        </mat-form-field>
+    </form>
+</mat-dialog-content>
+
+<mat-dialog-actions>
+    <button mat-flat-button color="primary" style="width: 100%;margin-bottom: 2em;" [disabled]="!dataFormGroup.valid"
+        (click)="login()">Sign in</button>
+</mat-dialog-actions>

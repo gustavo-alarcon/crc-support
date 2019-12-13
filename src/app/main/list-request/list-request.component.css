@@ -1,0 +1,27 @@
+.container {
+    max-width: 1160px;
+    margin: auto;
+}
+
+.status-label {
+    background-color: #999;
+    /*background-color: #1eb848;*/
+    border-radius: 4px;
+    color: #fff;
+    font-size: 12px;
+    margin-right: 2px;
+    padding: 3px 10px;
+    vertical-align: middle;
+    white-space: nowrap;
+    display: inline-block;
+}
+
+.mat-table td, .mat-table th {
+    height: 60px;
+}
+
+.title-list{
+    text-decoration: none;
+    color: rgba(255, 0, 4, 1);
+    max-width: 350px;
+}

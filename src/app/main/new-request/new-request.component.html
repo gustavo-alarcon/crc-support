@@ -1,0 +1,23 @@
+<div class="container">
+    <h2>Enviar Solicitud</h2>
+    <form class="form-submit" [formGroup]="dataFormGroup">
+        <mat-form-field style="width: 100%" appearance="outline" formControlName="cc">
+            <mat-label>CC</mat-label>
+            <input matInput placeholder="Agregar Emails">
+        </mat-form-field>
+        <mat-form-field style="width: 100%" appearance="outline" formControlName="subject">
+            <mat-label>Asunto</mat-label>
+            <input matInput placeholder="Asunto">
+        </mat-form-field>
+        <mat-form-field style="width: 100%" appearance="outline" formControlName="description">
+            <mat-label>Descripción</mat-label>
+            <textarea matInput placeholder="Descripción" cdkTextareaAutosize cdkAutosizeMinRows="5" cdkAutosizeMaxRows="10"
+                #autosize="cdkTextareaAutosize"></textarea>
+        </mat-form-field>
+        <input #fileInput style="display: none" type="file" accept="image/*">
+        <button mat-stroked-button color="warn" style="width: 100%" (click)="fileInput.click()">
+            <mat-icon style="vertical-align: middle;">attach_file</mat-icon> Agregar archivo
+        </button>
+    </form>
+    <button class="button-large" mat-flat-button color="warn">Enviar</button>
+</div>

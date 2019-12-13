@@ -1,0 +1,26 @@
+/*Toolbar*/
+
+.button-large {
+    background-color: rgba(255, 0, 4, 1);
+    color: #FFFFFF;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 2.72;
+    min-width: 190px;
+    padding: 0 1.9286em;
+}
+
+.sign-button {
+    color: rgba(255, 0, 0, 1);
+    font-size: 14px;
+    background-color: white;
+    text-align: center;
+    margin: 0 10px;
+    padding: 0 5px;
+}
+
+.mat-toolbar-row{
+    max-width: 1160px;
+    width: 100%;
+    margin: 0 auto;
+}

@@ -1,0 +1,115 @@
+<div class="container">
+    <h1>Mis solicitudes</h1>
+    <mat-tab-group color="warn">
+        <mat-tab label="Mis solicitudes">
+            <mat-toolbar style="background-color: white; margin: 50px 0;">
+                <mat-toolbar-row>
+                    <form style="font-size: 14px;">
+                        <mat-form-field appearance="outline" color="warn" style="width:100%">
+                            <mat-label>Buscar</mat-label>
+                            <input matInput placeholder="Buscar">
+                            <mat-icon matSuffix>search</mat-icon>
+
+                        </mat-form-field>
+                        <mat-form-field appearance="outline" color="warn" style="margin-left: 15px;">
+                            <mat-label>Status</mat-label>
+                            <mat-select>
+                                <mat-option value="open">Abierto</mat-option>
+                                <mat-option value="solve">Resuelto</mat-option>
+                                <mat-option value="waiting">Esperando respuesta</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </form>
+                </mat-toolbar-row>
+            </mat-toolbar>
+            <table mat-table [dataSource]="dataSource" style="width: 100%;">
+                <ng-container matColumnDef="subject">
+                    <th style="text-align:center" mat-header-cell *matHeaderCellDef> Asunto </th>
+                    <td mat-cell *matCellDef="let element">
+                        <a class="title-list" routerLink="/request">{{element.subject}}</a>
+                    </td>
+                </ng-container>
+
+                <ng-container matColumnDef="id">
+                    <th style="text-align:center" mat-header-cell *matHeaderCellDef> Id </th>
+                    <td style="text-align:center" mat-cell *matCellDef="let element"> {{element.id}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="created">
+                    <th style="text-align:center" mat-header-cell *matHeaderCellDef> Creado </th>
+                    <td style="text-align:center" mat-cell *matCellDef="let element"> {{element.created}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="lastactivity">
+                    <th style="text-align:center" mat-header-cell *matHeaderCellDef> Última Actividad </th>
+                    <td style="text-align:center" mat-cell *matCellDef="let element"> {{element.lastactivity}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="status">
+                    <th style="text-align:center" mat-header-cell *matHeaderCellDef> Estado </th>
+                    <td style="text-align:center" mat-cell *matCellDef="let element">
+                        <span class="status-label"> {{element.status}}</span> </td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+            </table>
+            <mat-paginator [pageSize]="[10]" showFirstLastButtons></mat-paginator>
+        </mat-tab>
+        <mat-tab label="Solicitudes en que participo">
+            <mat-toolbar style="background-color: white; margin: 50px 0;">
+                <mat-toolbar-row>
+                    <form style="font-size: 14px;">
+                        <mat-form-field appearance="outline" color="warn" style="width:100%">
+                            <mat-label>Buscar</mat-label>
+                            <input matInput placeholder="Buscar">
+                            <mat-icon matSuffix>search</mat-icon>
+
+                        </mat-form-field>
+                        <mat-form-field appearance="outline" color="warn" style="margin-left: 15px;">
+                            <mat-label>Status</mat-label>
+                            <mat-select>
+                                <mat-option value="open">Abierto</mat-option>
+                                <mat-option value="solve">Resuelto</mat-option>
+                                <mat-option value="waiting">Esperando respuesta</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </form>
+                </mat-toolbar-row>
+            </mat-toolbar>
+            <table mat-table [dataSource]="dataSource" style="width: 100%;">
+                <ng-container matColumnDef="subject">
+                    <th style="text-align:center" mat-header-cell *matHeaderCellDef> Asunto </th>
+                    <td mat-cell *matCellDef="let element">
+                        <a class="title-list" routerLink="/request">{{element.subject}}</a>
+                    </td>
+                </ng-container>
+
+                <ng-container matColumnDef="id">
+                    <th style="text-align:center" mat-header-cell *matHeaderCellDef> Id </th>
+                    <td style="text-align:center" mat-cell *matCellDef="let element"> {{element.id}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="created">
+                    <th style="text-align:center" mat-header-cell *matHeaderCellDef> Creado </th>
+                    <td style="text-align:center" mat-cell *matCellDef="let element"> {{element.created}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="lastactivity">
+                    <th style="text-align:center" mat-header-cell *matHeaderCellDef> Última Actividad </th>
+                    <td style="text-align:center" mat-cell *matCellDef="let element"> {{element.lastactivity}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="status">
+                    <th style="text-align:center" mat-header-cell *matHeaderCellDef> Estado </th>
+                    <td style="text-align:center" mat-cell *matCellDef="let element">
+                        <span class="status-label"> {{element.status}}</span> </td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+            </table>
+            <mat-paginator [pageSize]="[10]" showFirstLastButtons></mat-paginator>
+        </mat-tab>
+    </mat-tab-group>
+</div>
