@@ -21,6 +21,7 @@ export class NewRequestComponent implements OnInit {
   emails$: Observable<any>;
   users: Array<any> = []
   currentUser: any
+  numberRequest: string
   selectedFile: Array<any> = []
 
   @ViewChild('fruitInput', { static: false }) fruitInput: ElementRef<HTMLInputElement>;
@@ -38,6 +39,11 @@ export class NewRequestComponent implements OnInit {
     this.auth.user$.subscribe(res => {
       if (res) {
         this.currentUser = res
+      }
+    })
+    this.dbs.requests$.subscribe(res => {
+      if (res) {
+        this.numberRequest = ((res.length + 1).toString()).padStart(4, '0')
       }
     })
     this.emails$ =
@@ -115,7 +121,7 @@ export class NewRequestComponent implements OnInit {
       users: this.users.filter(el => el),//verificar que filtra
       status: 'En espera',
       lastActivity: new Date(),
-      id: '#0005',
+      id: '#' + this.numberRequest,
       name: this.dataFormGroup.get('subject').value
     }
     let comment = {
@@ -126,9 +132,9 @@ export class NewRequestComponent implements OnInit {
     }
 
     this.dbs.saveRequests(this.currentUser.uid, data, comment)
-    console.log(data);
-    console.log(comment);
-
+    this.dataFormGroup.reset()
+    this.users = []
+    this.selectedFile = []
 
   }
 
