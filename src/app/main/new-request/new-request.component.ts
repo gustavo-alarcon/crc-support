@@ -115,7 +115,7 @@ export class NewRequestComponent implements OnInit {
       users: this.users.filter(el => el),//verificar que filtra
       status: 'En espera',
       lastActivity: new Date(),
-      id: '#0001',
+      id: '#0005',
       name: this.dataFormGroup.get('subject').value
     }
     let comment = {

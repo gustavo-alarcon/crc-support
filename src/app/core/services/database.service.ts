@@ -66,7 +66,6 @@ export class DatabaseService {
       console.log('request save');
 
     })
-    //todo
   }
   saveComment(uid, id, comment) {
     //to do
@@ -91,7 +90,31 @@ export class DatabaseService {
       console.log('comment save');
 
       if (comment.files.length) {
-        //todo
+        console.log('aqui files');
+        
+        comment.files.forEach((file, index) => {
+          const filePath = `/commentsFiles/${Date.now()}_${file.name}`;
+          const fileRef = this.storage.ref(filePath);
+          const task = this.storage.upload(filePath, file);
+          task.snapshotChanges().pipe(
+            finalize(() => {
+              fileRef.getDownloadURL()
+                .subscribe(fileURL => {
+                  if (fileURL) {
+                    data.files.push(fileURL)
+                    console.log(data.files);
+                    
+                    const batch = this.af.firestore.batch();
+                    batch.update(requestDoc, { files: data.files })
+                    batch.update(userRef, { files: data.files })
+                    batch.commit().then(res => {
+                      console.log('file numero  ' + index);
+
+                    })
+                  }
+                })
+            })).subscribe()
+        })
       }
     })
 

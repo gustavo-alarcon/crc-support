@@ -32,7 +32,7 @@
             <textarea matInput placeholder="Descripción" cdkTextareaAutosize cdkAutosizeMinRows="5"
                 cdkAutosizeMaxRows="10" #autosize="cdkTextareaAutosize" formControlName="description"></textarea>
         </mat-form-field>
-        <input #fileInput style="display: none" type="file" accept="image/*" (change)="onFileSelected($event)">
+        <input #fileInput style="display: none" type="file" (change)="onFileSelected($event)">
         <button mat-stroked-button color="warn" style="width: 100%" (click)="fileInput.click()">
             <mat-icon style="vertical-align: middle;">attach_file</mat-icon> Agregar archivo
         </button>
