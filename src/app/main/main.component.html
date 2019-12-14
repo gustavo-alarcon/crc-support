@@ -11,7 +11,7 @@
         <mat-menu #menu="matMenu">
             <button mat-menu-item routerLink="/requests">My activities</button>
             <button mat-menu-item>Change Password</button>
-            <button mat-menu-item>Sign out</button>
+            <button mat-menu-item (click)="auth.signOut()">Sign out</button>
         </mat-menu>
         <ng-template #icon>
             <button class="sign-button" mat-button color="warn" (click)="login()">Sign in</button>

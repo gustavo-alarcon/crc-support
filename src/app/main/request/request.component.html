@@ -5,6 +5,17 @@
     <div class="request-container">
         <div class="comments request-main">
             <mat-divider></mat-divider>
+            <div class="respond-box">
+                <h4>Respuesta</h4>
+                <form>
+                    <mat-form-field style="width: 100%" appearance="outline">
+                        <mat-label>Respuesta</mat-label>
+                        <textarea matInput placeholder="Descripción" cdkTextareaAutosize cdkAutosizeMinRows="5" cdkAutosizeMaxRows="10"
+                            #autosize="cdkTextareaAutosize"></textarea>
+                    </mat-form-field>
+                </form>
+                <button >Enviar</button>
+            </div>
             <div class="comment">
                 <div class="comment-author">
                     <div class="avatar comment-avatar">

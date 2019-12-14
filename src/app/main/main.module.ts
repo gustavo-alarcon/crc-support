@@ -22,7 +22,9 @@ import {
   MatSortModule,
   MatSelectModule,
   MatDividerModule,
-  MatSnackBarModule
+  MatSnackBarModule,
+  MatChipsModule,
+  MatAutocompleteModule
 } from '@angular/material';
 import { ListRequestComponent } from './list-request/list-request.component';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
@@ -53,7 +55,9 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
     MatDividerModule,
     FormsModule,
     ReactiveFormsModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    MatChipsModule,
+    MatAutocompleteModule
   ],
   entryComponents: [
     LoginComponent
