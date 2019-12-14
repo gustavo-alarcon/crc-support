@@ -1,23 +1,52 @@
-<div class="container">
+<div class="container" *ngIf="dbs.users$ | async">
     <h2>Enviar Solicitud</h2>
     <form class="form-submit" [formGroup]="dataFormGroup">
-        <mat-form-field style="width: 100%" appearance="outline" formControlName="cc">
+        <mat-form-field style="width: 100%;" appearance="outline">
             <mat-label>CC</mat-label>
-            <input matInput placeholder="Agregar Emails">
+            <mat-chip-list #chipList aria-label="Email selection">
+                <div *ngFor="let user of users; let i = index">
+                    <mat-chip [selectable]="selectable" [removable]="true" (removed)="remove(i)" *ngIf="user">
+                        {{user.displayName ? user.displayName : user}}
+                        <mat-icon matChipRemove>cancel</mat-icon>
+                    </mat-chip>
+                </div>
+
+                <input #fruitInput [matAutocomplete]="auto" [matChipInputFor]="chipList"
+                    [matChipInputSeparatorKeyCodes]="separatorKeysCodes" [matChipInputAddOnBlur]="addOnBlur"
+                    (matChipInputTokenEnd)="add($event)" formControlName="cc">
+            </mat-chip-list>
+            <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)" placeholder="Agregar Emails"
+                [displayWith]="showEmail">
+                <mat-option class="w3-small" *ngFor="let item of emails$ | async" [value]="item" style="height: auto;">
+                    <span style="font-size: 12px;"> <strong>{{item.displayName}}</strong> </span>
+                    <span style="font-size: 10px;"> ({{item.email}})</span>
+                </mat-option>
+            </mat-autocomplete>
         </mat-form-field>
-        <mat-form-field style="width: 100%" appearance="outline" formControlName="subject">
+        <mat-form-field style="width: 100%" appearance="outline">
             <mat-label>Asunto</mat-label>
-            <input matInput placeholder="Asunto">
+            <input matInput placeholder="Asunto" formControlName="subject">
         </mat-form-field>
-        <mat-form-field style="width: 100%" appearance="outline" formControlName="description">
+        <mat-form-field style="width: 100%" appearance="outline">
             <mat-label>Descripción</mat-label>
-            <textarea matInput placeholder="Descripción" cdkTextareaAutosize cdkAutosizeMinRows="5" cdkAutosizeMaxRows="10"
-                #autosize="cdkTextareaAutosize"></textarea>
+            <textarea matInput placeholder="Descripción" cdkTextareaAutosize cdkAutosizeMinRows="5"
+                cdkAutosizeMaxRows="10" #autosize="cdkTextareaAutosize" formControlName="description"></textarea>
         </mat-form-field>
-        <input #fileInput style="display: none" type="file" accept="image/*">
+        <input #fileInput style="display: none" type="file" (change)="onFileSelected($event)">
         <button mat-stroked-button color="warn" style="width: 100%" (click)="fileInput.click()">
             <mat-icon style="vertical-align: middle;">attach_file</mat-icon> Agregar archivo
         </button>
+        <div *ngIf="selectedFile.length">
+            <div class="archivo" *ngFor="let file of selectedFile; let i = index">
+                <mat-icon style="vertical-align: middle;">description</mat-icon>
+                <span class="filename">{{file.name}}</span>
+                <span style="flex: 1 1 auto;"></span>
+                <mat-icon style="vertical-align: middle; transform: scale(0.8); cursor: pointer;"
+                    (click)="removeFile(i)">cancel
+                </mat-icon>
+            </div>
+        </div>
     </form>
-    <button class="button-large" mat-flat-button color="warn">Enviar</button>
+    <button class="button-large" mat-flat-button color="warn" (click)="saveRequest()"
+        [disabled]="!dataFormGroup.valid || !users.length">Enviar</button>
 </div>

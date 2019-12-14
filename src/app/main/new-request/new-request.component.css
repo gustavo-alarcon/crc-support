@@ -30,3 +30,19 @@
     padding: 0 1.9286em;
     margin-top: 20px;
 }
+
+.archivo{
+    border: 1px solid rgba(255, 0, 4, 1);
+    border-radius: 5px;
+    display: flex;
+    max-width: 250px;
+    padding: 5px;
+    margin-top: 20px;
+}
+
+.archivo .filename{
+    margin-left: 5px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}

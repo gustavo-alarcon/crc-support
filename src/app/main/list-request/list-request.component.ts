@@ -5,7 +5,7 @@ import { MatPaginator, MatTableDataSource } from '@angular/material';
 const dataExample = [
   { subject: 'Apoyo con descarga/instalación de ANSYS 16.1', id: '#2859', created: '4 days ago', lastactivity: '1 day ago', status: 'Abierto' },
   { subject: 'Instalación Ansys 17', id: '#4584', created: '1 month ago', lastactivity: '1 month ago', status: 'Resuelto' },
-  { subject: 'Influencia del Loctite (Retaining Compound) en Interferencia Cubo Eje.', id: '#4557', created: '1 year ago', lastactivity: '1 month ago', status: 'Esperando respuesta' },
+  { subject: 'Influencia del Loctite (Retaining Compound) en Interferencia Cubo Eje.', id: '#4557', created: '1 year ago', lastactivity: '1 month ago', status: 'En espera' },
   { subject: 'Consulta respecto a problema de licencia', id: '#3581', created: '2 years ago', lastactivity: '1 year ago', status: 'Resuelto' },
 ]
 
