@@ -5,7 +5,7 @@
     <div class="request-container">
         <div class="comments request-main">
             <mat-divider></mat-divider>
-            <div class="respond-box">
+            <div class="respond-box" *ngIf="request.status!=='Resuelto'">
                 <h4>Respuesta</h4>
                 <form [formGroup]="dataFormGroup">
                     <mat-form-field style="width: 100%" appearance="outline">
@@ -29,15 +29,22 @@
                     </div>
                 </div>
 
-                <button mat-flat-button color="warn" class="button-large" [disabled]="!dataFormGroup.valid"
-                    (click)="send(request.requester.uid,request.id)">Enviar</button>
+                <div style="display: flex; flex-wrap: wrap; align-items: center;">
+                    <button mat-flat-button color="warn" class="button-large" [disabled]="!dataFormGroup.valid"
+                        (click)="send(request.requester.uid,request.id)">Enviar</button>
+                    <span style="flex: 1 1 auto;"></span>
+                    <mat-slide-toggle color="warn" matTooltip="Se cerrará la solicitud" [(ngModel)]="isSolved">Solicitud
+                        Resuelta</mat-slide-toggle>
+                </div>
             </div>
             <div *ngIf="dbs.comments$ | async as comments">
                 <div class="comment" *ngFor="let comment of comments">
                     <div class="comment-author">
                         <div class="avatar comment-avatar">
-                            <img src="https://support.esss.co/system/photos/0001/1413/1747/profile_image_716022603_346703.jpg"
-                                alt="" class="user-avatar">
+                            <!--<img src="https://support.esss.co/system/photos/0001/1413/1747/profile_image_716022603_346703.jpg"
+                                alt="" class="user-avatar">-->
+                            <mat-icon style="transform: scale(2) translateY(-5px);
+                                vertical-align: middle;">account_circle</mat-icon>
                         </div>
                         <div style="margin-left: 20px;">
                             <span>{{comment.createdBy.displayName}}</span><br>
@@ -87,7 +94,8 @@
                 <div class="dd">{{request.id}}</div>
                 <div class="dt">Estado</div>
                 <div class="dd">
-                    <div class="status-label status-label-solved">
+                    <div
+                        [className]="request.status=='Abierto'?'status-label open':request.status==='Resuelto'?'status-label solved':'status-label waiting'">
                         {{request.status}}
                     </div>
                 </div>

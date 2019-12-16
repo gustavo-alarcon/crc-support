@@ -38,14 +38,14 @@ export class DatabaseService {
       )
   }
   getrequests() {
-    this.requestsCollection = this.af.collection<any>(`requests`, ref => ref.orderBy('regDate', 'asc'));
+    this.requestsCollection = this.af.collection<any>(`requests`, ref => ref.orderBy('lastActivity', 'desc'));
     this.requests$ = this.requestsCollection.valueChanges()
       .pipe(
         shareReplay(1)
       )
   }
   getrequestsList(sid: string) {
-    this.requestsListCollection = this.af.collection<any>(`users/${sid}/requests`, ref => ref.orderBy('regDate', 'desc'));
+    this.requestsListCollection = this.af.collection<any>(`users/${sid}/requests`, ref => ref.orderBy('lastActivity', 'desc'));
     this.requestsList$ =
       this.requestsListCollection.valueChanges()
         .pipe(
@@ -81,17 +81,35 @@ export class DatabaseService {
     })
   }
 
-  updateRequest(uid, id, comment) {
+  updateRequest(uid, id, comment, respond: boolean,solved:boolean) {
     const batch = this.af.firestore.batch();
     const requestRef = this.requestsCollection.doc(id).ref
-    batch.update(requestRef, { lastActivity: new Date() })
+    if (respond) {
+      batch.update(requestRef, { lastActivity: new Date(), status: 'Esperando Respuesta' })
+    } else {
+      if(solved){
+        batch.update(requestRef, { lastActivity: new Date(), status: 'Resuelto' })
+      }else{
+        batch.update(requestRef, { lastActivity: new Date(), status: 'Abierto' })
+      }
+     
+    }
+
     const userRef =
       this.usersCollection
         .doc(uid)
         .collection(`requests`)
         .doc(id).ref;
-    batch.update(userRef, { lastActivity: new Date() })
 
+    if (respond) {
+      batch.update(userRef, { lastActivity: new Date(), status: 'Esperando Respuesta' })
+    } else {
+      if(solved){
+        batch.update(userRef, { lastActivity: new Date(), status: 'Resuelto' })
+      }else{
+        batch.update(userRef, { lastActivity: new Date(), status: 'Abierto' })
+      }
+    }
 
     batch.commit().then(res => {
       this.saveComment(uid, id, comment)

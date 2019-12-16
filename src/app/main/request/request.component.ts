@@ -17,6 +17,9 @@ export class RequestComponent implements OnInit {
   comments$: Observable<any>
   dataFormGroup: FormGroup
   currentUser: any
+  isRespond: boolean = false
+  show: boolean = false
+  isSolved: boolean = false
   selectedFile: Array<any> = []
   constructor(
     public dbs: DatabaseService,
@@ -27,6 +30,13 @@ export class RequestComponent implements OnInit {
     this.route.params.subscribe(res => {
       if (res) {
         this.dbs.getComments(res.id)
+        this.dbs.comments$.subscribe(res => {
+          if (res) {
+            if (res.length > 1) {
+              this.show = true
+            }
+          }
+        })
       }
     })
     this.auth.user$.subscribe(res => {
@@ -40,19 +50,27 @@ export class RequestComponent implements OnInit {
     this.currentRequest$ =
       combineLatest(
         this.dbs.requests$,
-        this.route.params
+        this.route.params,
+        this.auth.user$
       ).pipe(
-        map(([request, route]) => {
+        map(([request, route, user]) => {
           let index = null
           request.forEach(el => {
             if (el.id == route.id) {
               index = el
+              this.isRespond = el['requester']['uid'] !== user['uid']
             }
           })
           return index
         })
       )
 
+    this.currentRequest$.subscribe(res => {
+      if (res) {
+        console.log(res);
+
+      }
+    })
     this.dataFormGroup = this.fb.group({
       text: [null, [Validators.required]]
     })
@@ -71,16 +89,22 @@ export class RequestComponent implements OnInit {
     }
   }
 
-  send(uid,id) {
+  send(uid, id) {
     let comment = {
       regDate: new Date(),
       comment: this.dataFormGroup.get('text').value,
       files: this.selectedFile,
       createdBy: this.currentUser
     }
+    this.dbs.updateRequest(uid, id, comment, this.isRespond, this.isSolved)
+
     
-    this.dbs.updateRequest(uid,id,comment)
+    this.dataFormGroup.reset()
+    this.isSolved = false
+
+
     
-    
+
+
   }
 }

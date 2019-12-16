@@ -2,6 +2,8 @@
     max-width: 1160px;
     margin: auto;
     padding: 0 5%;
+    margin-top: 40px;
+    min-height: 65vh;
 }
 
 .request-container {
@@ -122,8 +124,6 @@
 }
 
 .status-label {
-    background-color: #999;
-    /*background-color: #1eb848;*/
     border-radius: 4px;
     color: #fff;
     font-size: 12px;
@@ -132,6 +132,17 @@
     vertical-align: middle;
     white-space: nowrap;
     display: inline-block;
+}
+
+.solved {
+    background-color: #999;
+}
+
+.open {
+    background-color: #1eb848;
+}
+.waiting{
+    background-color: rgb(255, 102, 0);
 }
 
 .button-large {

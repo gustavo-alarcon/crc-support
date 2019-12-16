@@ -55,7 +55,7 @@
                         <ng-container matColumnDef="status">
                             <th style="text-align:center" mat-header-cell *matHeaderCellDef> Estado </th>
                             <td style="text-align:center" mat-cell *matCellDef="let element">
-                                <span class="status-label"> {{element.status}}</span> </td>
+                                <span [className]="element.status=='Abierto'?'status-label open':element.status==='Resuelto'?'status-label solved':'status-label waiting'"> {{element.status}}</span> </td>
                         </ng-container>
 
                         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
@@ -124,7 +124,7 @@
                         <ng-container matColumnDef="status">
                             <th style="text-align:center" mat-header-cell *matHeaderCellDef> Estado </th>
                             <td style="text-align:center" mat-cell *matCellDef="let element">
-                                <span class="status-label"> {{element.status}}</span> </td>
+                                <span [className]="element.status=='Abierto'?'status-label open':element.status==='Resuelto'?'status-label solve':'status-label waiting'"> {{element.status}}</span> </td>
                         </ng-container>
 
                         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
