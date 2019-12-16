@@ -19,6 +19,9 @@ export class DatabaseService {
   public requestsListCollection: AngularFirestoreCollection<any>;
   public requestsList$: Observable<any>;
 
+  public commentCollection: AngularFirestoreCollection<any>
+  public comments$: Observable<any>
+
   constructor(
     public auth: AuthService,
     public af: AngularFirestore,
@@ -42,12 +45,22 @@ export class DatabaseService {
       )
   }
   getrequestsList(sid: string) {
-    this.requestsListCollection = this.af.collection<any>(`users/${sid}/requests`, ref => ref.orderBy('regDate', 'asc'));
+    this.requestsListCollection = this.af.collection<any>(`users/${sid}/requests`, ref => ref.orderBy('regDate', 'desc'));
     this.requestsList$ =
       this.requestsListCollection.valueChanges()
         .pipe(
           shareReplay(1)
         );
+  }
+
+  getComments(id) {
+    this.commentCollection = this.af.collection<any>(`requests/${id}/comments`, ref => ref.orderBy('regDate', 'desc'));
+    this.comments$ =
+      this.commentCollection.valueChanges()
+        .pipe(
+          shareReplay(1)
+        )
+
   }
   saveRequests(uid, data, comment) {
     const batch = this.af.firestore.batch();
@@ -63,6 +76,25 @@ export class DatabaseService {
 
     batch.commit().then(res => {
       this.saveComment(uid, data.id, comment)
+      console.log('request save');
+
+    })
+  }
+
+  updateRequest(uid, id, comment) {
+    const batch = this.af.firestore.batch();
+    const requestRef = this.requestsCollection.doc(id).ref
+    batch.update(requestRef, { lastActivity: new Date() })
+    const userRef =
+      this.usersCollection
+        .doc(uid)
+        .collection(`requests`)
+        .doc(id).ref;
+    batch.update(userRef, { lastActivity: new Date() })
+
+
+    batch.commit().then(res => {
+      this.saveComment(uid, id, comment)
       console.log('request save');
 
     })
@@ -90,10 +122,8 @@ export class DatabaseService {
       console.log('comment save');
 
       if (comment.files.length) {
-        console.log('aqui files');
-        
         comment.files.forEach((file, index) => {
-          const filePath = `/commentsFiles/${Date.now()}_${file.name}`;
+          const filePath = `/commentsFiles/${file.name}`;
           const fileRef = this.storage.ref(filePath);
           const task = this.storage.upload(filePath, file);
           task.snapshotChanges().pipe(
@@ -101,9 +131,12 @@ export class DatabaseService {
               fileRef.getDownloadURL()
                 .subscribe(fileURL => {
                   if (fileURL) {
-                    data.files.push(fileURL)
+                    data.files.push({
+                      url: fileURL,
+                      name: file.name
+                    })
                     console.log(data.files);
-                    
+
                     const batch = this.af.firestore.batch();
                     batch.update(requestDoc, { files: data.files })
                     batch.update(userRef, { files: data.files })
