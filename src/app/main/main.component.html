@@ -9,9 +9,9 @@
             <mat-icon>arrow_drop_down</mat-icon>
         </button>
         <mat-menu #menu="matMenu">
-            <button mat-menu-item routerLink="/requests">My activities</button>
-            <button mat-menu-item>Change Password</button>
-            <button mat-menu-item (click)="auth.signOut()">Sign out</button>
+            <button mat-menu-item routerLink="/requests">Mis actividades</button>
+            <button mat-menu-item>Cambiar contraseña</button>
+            <button mat-menu-item (click)="auth.signOut()">Salir</button>
         </mat-menu>
         <ng-template #icon>
             <button class="sign-button" mat-button color="warn" (click)="login()">Sign in</button>
@@ -21,3 +21,16 @@
     </mat-toolbar-row>
 </mat-toolbar>
 <router-outlet></router-outlet>
+<footer class="footer">
+    <div class="footer-inner">
+      <a title="Home" href="https://www.esss.co/">Home</a>
+      <a title="Home" href="https://www.esss.co/iesss/">Education</a>
+      <a title="Home" href="/hc/en-us">Technical Content</a>
+      <a title="Home" href="https://www.esss.co/empresa/">Company</a>
+      <a title="Home" href="https://www.esss.co/contato/">contact</a>
+      
+      <div class="footer-language-selector">
+        
+      </div>
+    </div>
+  </footer>

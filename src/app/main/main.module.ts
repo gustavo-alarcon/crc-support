@@ -24,7 +24,10 @@ import {
   MatDividerModule,
   MatSnackBarModule,
   MatChipsModule,
-  MatAutocompleteModule
+  MatAutocompleteModule,
+  MatSlideToggleModule,
+  MatTooltip,
+  MatTooltipModule
 } from '@angular/material';
 import { ListRequestComponent } from './list-request/list-request.component';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
@@ -59,7 +62,9 @@ import { TimeAgoPipe } from 'time-ago-pipe';
     ReactiveFormsModule,
     MatSnackBarModule,
     MatChipsModule,
-    MatAutocompleteModule
+    MatAutocompleteModule,
+    MatSlideToggleModule,
+    MatTooltipModule
   ],
   entryComponents: [
     LoginComponent

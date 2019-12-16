@@ -45,10 +45,11 @@ export class LoginComponent implements OnInit {
 
 
   registerUser(): void {
-    let data={
-      email:this.dataFormGroup.get('email').value,
+    let data = {
+      email: this.dataFormGroup.get('email').value,
       password: this.dataFormGroup.get('pass').value,
-      displayName: 'Melanie Ocharan'
+      displayName: 'Usuario Prueba',
+      role: 'admin'
     }
     this.auth.signUp(data)
       .then(res => {

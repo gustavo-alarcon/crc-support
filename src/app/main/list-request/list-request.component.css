@@ -2,11 +2,11 @@
     max-width: 1160px;
     margin: auto;
     padding: 0 5%;
+    margin-top: 40px;
+    min-height: 65vh;
 }
 
 .status-label {
-    background-color: #999;
-    /*background-color: #1eb848;*/
     border-radius: 4px;
     color: #fff;
     font-size: 12px;
@@ -17,11 +17,22 @@
     display: inline-block;
 }
 
+.solved {
+    background-color: #999;
+}
+
+.open {
+    background-color: #1eb848;
+}
+.waiting{
+    background-color: rgb(255, 102, 0);
+}
+
 .mat-table td, .mat-table th {
     height: 60px;
 }
 
-.title-list{
+.title-list {
     text-decoration: none;
     color: rgba(255, 0, 4, 1);
     max-width: 350px;
