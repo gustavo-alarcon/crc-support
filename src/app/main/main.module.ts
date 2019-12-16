@@ -28,6 +28,7 @@ import {
 } from '@angular/material';
 import { ListRequestComponent } from './list-request/list-request.component';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { TimeAgoPipe } from 'time-ago-pipe';
 
 @NgModule({
   declarations: [
@@ -36,7 +37,8 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
     LoginComponent,
     NewRequestComponent,
     RequestComponent,
-    ListRequestComponent],
+    ListRequestComponent,
+    TimeAgoPipe],
   imports: [
     CommonModule,
     MainRoutingModule,

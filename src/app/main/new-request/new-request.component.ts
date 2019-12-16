@@ -122,7 +122,8 @@ export class NewRequestComponent implements OnInit {
       status: 'En espera',
       lastActivity: new Date(),
       id: '#' + this.numberRequest,
-      name: this.dataFormGroup.get('subject').value
+      subject: this.dataFormGroup.get('subject').value,
+      requester: this.currentUser
     }
     let comment = {
       regDate: new Date(),
