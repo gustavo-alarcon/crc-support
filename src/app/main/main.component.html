@@ -3,16 +3,19 @@
         <mat-icon aria-hidden="false" aria-label="Example user verified icon">verified_user</mat-icon>
         <span style="flex: 1 1 auto;"></span>
 
-        <button *ngIf="auth.user$ | async as user; else icon" class="sign-button" mat-button [matMenuTriggerFor]="menu">
-            <mat-icon style="margin-right: 6px; color: silver;">account_circle</mat-icon>
-            <span>{{user.displayName}}</span>
-            <mat-icon>arrow_drop_down</mat-icon>
-        </button>
-        <mat-menu #menu="matMenu">
-            <button mat-menu-item routerLink="/requests">My activities</button>
-            <button mat-menu-item>Change Password</button>
-            <button mat-menu-item (click)="auth.signOut()">Sign out</button>
-        </mat-menu>
+        <div *ngIf="auth.user$ | async as user; else icon">
+            <button class="sign-button" mat-button [matMenuTriggerFor]="menu">
+                <mat-icon style="margin-right: 6px; color: silver;">account_circle</mat-icon>
+                <span>{{user.displayName}}</span>
+                <mat-icon>arrow_drop_down</mat-icon>
+            </button>
+            <mat-menu #menu="matMenu">
+                <button mat-menu-item routerLink="/requests">Mis actividades</button>
+                <button mat-menu-item *ngIf="user.role=='admin'" routerLink="/admin">Configuración</button>
+                <button mat-menu-item>Cambiar Contraseña</button>
+                <button mat-menu-item (click)="auth.signOut()">Salir</button>
+            </mat-menu>
+        </div>
         <ng-template #icon>
             <button class="sign-button" mat-button color="warn" (click)="login()">Sign in</button>
         </ng-template>

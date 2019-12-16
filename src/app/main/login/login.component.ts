@@ -43,25 +43,4 @@ export class LoginComponent implements OnInit {
       })
   }
 
-
-  registerUser(): void {
-    let data={
-      email:this.dataFormGroup.get('email').value,
-      password: this.dataFormGroup.get('pass').value,
-      displayName: 'Melanie Ocharan'
-    }
-    this.auth.signUp(data)
-      .then(res => {
-        this.snackbar.open('Bienvenid@!', 'Cerrar', {
-          duration: 6000
-        });
-        this.dialogRef.close(true);
-      })
-      .catch(error => {
-        this.snackbar.open('Parece que hubo un error ...', 'Cerrar', {
-          duration: 6000
-        });
-        console.log(error);
-      });
-  }
 }

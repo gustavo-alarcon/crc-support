@@ -24,10 +24,13 @@ import {
   MatDividerModule,
   MatSnackBarModule,
   MatChipsModule,
-  MatAutocompleteModule
+  MatAutocompleteModule,
+  MatStepperModule
 } from '@angular/material';
 import { ListRequestComponent } from './list-request/list-request.component';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { AdminComponent } from './admin/admin.component';
+import { NewUserComponent } from './new-user/new-user.component';
 
 @NgModule({
   declarations: [
@@ -36,7 +39,9 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
     LoginComponent,
     NewRequestComponent,
     RequestComponent,
-    ListRequestComponent],
+    ListRequestComponent,
+    AdminComponent,
+    NewUserComponent],
   imports: [
     CommonModule,
     MainRoutingModule,
@@ -57,10 +62,12 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
     ReactiveFormsModule,
     MatSnackBarModule,
     MatChipsModule,
-    MatAutocompleteModule
+    MatAutocompleteModule,
+    MatStepperModule
   ],
   entryComponents: [
-    LoginComponent
+    LoginComponent,
+    NewUserComponent
   ]
 })
 export class MainModule { }

@@ -1,3 +1,4 @@
+import { AdminComponent } from './admin/admin.component';
 import { ListRequestComponent } from './list-request/list-request.component';
 import { NewRequestComponent } from './new-request/new-request.component';
 import { RequestComponent } from './request/request.component';
@@ -28,6 +29,10 @@ const routes: Routes = [
       {
         path: 'request',
         component: RequestComponent
+      },
+      {
+        path: 'admin',
+        component: AdminComponent
       }
     ]
   }
