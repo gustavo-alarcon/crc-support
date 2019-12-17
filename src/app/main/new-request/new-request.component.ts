@@ -126,24 +126,24 @@ export class NewRequestComponent implements OnInit {
       createdBy: this.currentUser
     }
 
-    //this.dbs.saveRequests(this.currentUser.uid, data, comment)
-
+    this.dbs.saveRequests(this.currentUser.uid, data, comment)
+    
 
     let message = {
-      toUids: this.users.map(el => el.uid),
+      toUids: this.users.map(el=>el.uid),
       template: {
         name: 'email',
         data: {
-          subject: "Solicitud: " + this.dataFormGroup.get('subject').value,
-          comment: text.split('//'),
+          subject: "Solicitud: "+ this.dataFormGroup.get('subject').value,
+          comment:text.split('//'),
           user: this.currentUser.displayName,
           request: this.dataFormGroup.get('subject').value,
-          id: this.numberRequest
+          id:this.numberRequest
         }
       }
     }
 
-    //this.dbs.sendEmail(message)
+    this.dbs.sendEmail(message)
 
     this.dataFormGroup.reset()
     this.users = []

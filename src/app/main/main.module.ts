@@ -1,12 +1,13 @@
 import { MainComponent } from './main.component';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
+import { FlexLayoutModule } from '@angular/flex-layout';
 import { MainRoutingModule } from './main-routing.module';
 import { WebComponent } from './web/web.component';
 import { LoginComponent } from './login/login.component';
 import { NewRequestComponent } from './new-request/new-request.component';
 import { RequestComponent } from './request/request.component';
+
 
 import {
   MatToolbarModule,
@@ -64,7 +65,8 @@ import { TimeAgoPipe } from 'time-ago-pipe';
     MatChipsModule,
     MatAutocompleteModule,
     MatSlideToggleModule,
-    MatTooltipModule
+    MatTooltipModule,
+    FlexLayoutModule
   ],
   entryComponents: [
     LoginComponent

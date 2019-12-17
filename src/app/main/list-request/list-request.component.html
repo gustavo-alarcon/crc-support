@@ -1,149 +1,210 @@
-<div style="padding: 0 5%;" >
+<div style="padding: 0 5%;">
     <div class="container">
         <h1>Solicitudes</h1>
         <mat-tab-group color="warn">
             <mat-tab label="Mis solicitudes">
-                <mat-toolbar style="background-color: white; margin: 50px 0;">
-                    <mat-toolbar-row>
-                        <form style="font-size: 14px;" [formGroup]="search1FormGroup">
-                            <mat-form-field appearance="outline" color="warn" style="width:100%">
-                                <mat-label>Buscar</mat-label>
-                                <input matInput placeholder="Buscar" formControlName="search1" autocomplete="off">
-                                <mat-icon matSuffix>search</mat-icon>
-    
-                            </mat-form-field>
-                            <mat-form-field appearance="outline" color="warn" style="margin-left: 15px;">
-                                <mat-label>Status</mat-label>
-                                <mat-select formControlName="status1">
-                                    <mat-option value="Todos">Todos</mat-option>
-                                    <mat-option value="Abierto">Abierto</mat-option>
-                                    <mat-option value="Resuelto">Resuelto</mat-option>
-                                    <mat-option value="Esperando respuesta">Esperando respuesta
-                                    </mat-option>
-                                </mat-select>
-                            </mat-form-field>
-                        </form>
-                    </mat-toolbar-row>
-                </mat-toolbar>
-                <div *ngIf="requests$|async as list">
-                    <div *ngIf="list.length ; else nothing ">
-                        <table mat-table [dataSource]="dataSource" [hidden]="!list.length" style="width: 100%;">
-                            <ng-container matColumnDef="subject">
-                                <th style="text-align:center" mat-header-cell *matHeaderCellDef> Asunto </th>
-                                <td mat-cell *matCellDef="let element">
-                                    <a class="title-list" [routerLink]="['/request',element.id]">{{element.subject}}</a>
-                                </td>
-                            </ng-container>
-    
-                            <ng-container matColumnDef="id">
-                                <th style="text-align:center" mat-header-cell *matHeaderCellDef> Id </th>
-                                <td style="text-align:center" mat-cell *matCellDef="let element"> {{element.id}} </td>
-                            </ng-container>
-    
-                            <ng-container matColumnDef="created">
-                                <th style="text-align:center" mat-header-cell *matHeaderCellDef> Creado </th>
-                                <td style="text-align:center" mat-cell *matCellDef="let element">
-                                    {{element['regDate'].toMillis() | timeAgo}} </td>
-                            </ng-container>
-    
-                            <ng-container matColumnDef="lastactivity">
-                                <th style="text-align:center" mat-header-cell *matHeaderCellDef> Última Actividad </th>
-                                <td style="text-align:center" mat-cell *matCellDef="let element">
-                                    {{element['lastActivity'].toMillis() | timeAgo}} </td>
-                            </ng-container>
-    
-                            <ng-container matColumnDef="status">
-                                <th style="text-align:center" mat-header-cell *matHeaderCellDef> Estado </th>
-                                <td style="text-align:center" mat-cell *matCellDef="let element">
-                                    <span
-                                        [className]="element.status=='Abierto'?'status-label open':element.status==='Resuelto'?'status-label solved':'status-label waiting'">
-                                        {{element.status}}</span> </td>
-                            </ng-container>
-    
-                            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-                            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-                        </table>
-                    </div>
-                    <ng-template #nothing>
-                        <div style="text-align: center; font-size: large;">No se encontró ninguna solicitud</div>
-                    </ng-template>
+                <div class="search-bar">
+                    <form style="font-size: 14px; display: flex; flex-wrap: wrap;" [formGroup]="search1FormGroup">
+                        <mat-form-field appearance="outline" color="warn"
+                            style="width:90%; max-width: 450px;margin-right: 15px;">
+                            <mat-label>Buscar</mat-label>
+                            <input matInput placeholder="Buscar" formControlName="search1" autocomplete="off">
+                            <mat-icon matSuffix>search</mat-icon>
+
+                        </mat-form-field>
+                        <mat-form-field appearance="outline" color="warn">
+                            <mat-label>Status</mat-label>
+                            <mat-select formControlName="status1">
+                                <mat-option value="Todos">Todos</mat-option>
+                                <mat-option value="Abierto">Abierto</mat-option>
+                                <mat-option value="Resuelto">Resuelto</mat-option>
+                                <mat-option value="Esperando respuesta">Esperando respuesta
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </form>
                 </div>
-                <div [hidden]="!dataSource.data.length">
-                    <mat-paginator [pageSize]="[4]" showFirstLastButtons #paginator1>
-                    </mat-paginator>
+
+                <div fxShow="true" fxHide.lt-md="true">
+                    <div *ngIf="requests$|async as list">
+                        <div *ngIf="list.length ; else nothing ">
+                            <table mat-table [dataSource]="dataSource" [hidden]="!list.length" style="width: 100%;">
+                                <ng-container matColumnDef="subject">
+                                    <th style="text-align:center" mat-header-cell *matHeaderCellDef> Asunto </th>
+                                    <td mat-cell *matCellDef="let element">
+                                        <a class="title-list"
+                                            [routerLink]="['/request',element.id]">{{element.subject}}</a>
+                                    </td>
+                                </ng-container>
+
+                                <ng-container matColumnDef="id">
+                                    <th style="text-align:center" mat-header-cell *matHeaderCellDef> Id </th>
+                                    <td style="text-align:center" mat-cell *matCellDef="let element"> {{element.id}}
+                                    </td>
+                                </ng-container>
+
+                                <ng-container matColumnDef="created">
+                                    <th style="text-align:center" mat-header-cell *matHeaderCellDef> Creado </th>
+                                    <td style="text-align:center" mat-cell *matCellDef="let element">
+                                        {{element['regDate'].toMillis() | timeAgo}} </td>
+                                </ng-container>
+
+                                <ng-container matColumnDef="lastactivity">
+                                    <th style="text-align:center" mat-header-cell *matHeaderCellDef> Última Actividad
+                                    </th>
+                                    <td style="text-align:center" mat-cell *matCellDef="let element">
+                                        {{element['lastActivity'].toMillis() | timeAgo}} </td>
+                                </ng-container>
+
+                                <ng-container matColumnDef="status">
+                                    <th style="text-align:center" mat-header-cell *matHeaderCellDef> Estado </th>
+                                    <td style="text-align:center" mat-cell *matCellDef="let element">
+                                        <span
+                                            [className]="element.status=='Abierto'?'status-label open':element.status==='Resuelto'?'status-label solved':'status-label waiting'">
+                                            {{element.status}}</span> </td>
+                                </ng-container>
+
+                                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                            </table>
+                        </div>
+                        <ng-template #nothing>
+                            <div style="text-align: center; font-size: large;">No se encontró ninguna solicitud</div>
+                        </ng-template>
+                    </div>
+                    <div [hidden]="!dataSource.data.length">
+                        <mat-paginator [pageSize]="[4]" showFirstLastButtons #paginator1>
+                        </mat-paginator>
+                    </div>
+                </div>
+                <div fxShow="true" fxHide.gt-sm>
+                    <div *ngIf="requests$|async as list">
+                        <div *ngFor="let element of list" class="request">
+                            <div style="display: flex; flex-wrap: wrap; margin-bottom: 10px;">
+                                <a class="title-list" [routerLink]="['/request',element.id]">{{element.subject}}</a>
+                                <span style="flex: 1 1 auto"></span>
+                                <span>{{element.id}}</span>
+                            </div>
+                            <div class="request-details">
+                                <div class="dt">Creado</div>
+                                <div class="dd"><span>{{element['regDate'].toMillis() | timeAgo}}</span>
+                                </div>
+
+                                <div class="dt">Última actividad</div>
+                                <div class="dd"><span>{{element['lastActivity'].toMillis() | timeAgo}}</span></div>
+                                <div class="dt">Estado</div>
+                                <div class="dd">
+                                    <div
+                                        [className]="element.status=='Abierto'?'status-label open':element.status==='Resuelto'?'status-label solved':'status-label waiting'">
+                                        {{element.status}}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
                 </div>
             </mat-tab>
             <mat-tab label="Solicitudes en que participo">
-                <mat-toolbar style="background-color: white; margin: 50px 0;">
-                    <mat-toolbar-row>
-                        <form style="font-size: 14px;" [formGroup]="search2FormGroup">
-                            <mat-form-field appearance="outline" color="warn" style="width:100%">
-                                <mat-label>Buscar</mat-label>
-                                <input matInput placeholder="Buscar" formControlName="search2" autocomplete="off">
-                                <mat-icon matSuffix>search</mat-icon>
-    
-                            </mat-form-field>
-                            <mat-form-field appearance="outline" color="warn" style="margin-left: 15px;">
-                                <mat-label>Status</mat-label>
-                                <mat-select formControlName="status2">
-                                    <mat-option value="Todos" >Todos</mat-option>
-                                    <mat-option value="Abierto" >Abierto</mat-option>
-                                    <mat-option value="Resuelto" >Resuelto</mat-option>
-                                    <mat-option value="Esperando respuesta" >Esperando respuesta
-                                    </mat-option>
-                                </mat-select>
-                            </mat-form-field>
-                        </form>
-                    </mat-toolbar-row>
-                </mat-toolbar>
-                <div *ngIf="requestOn$|async as list">
-                    <div *ngIf="list.length; else empty">
-                        <table mat-table [dataSource]="dataSource2" [hidden]="!list.length" style="width: 100%;">
-                            <ng-container matColumnDef="subject">
-                                <th style="text-align:center" mat-header-cell *matHeaderCellDef> Asunto </th>
-                                <td mat-cell *matCellDef="let element">
-                                    <a class="title-list" [routerLink]="['/request',element.id]">{{element.subject}}</a>
-                                </td>
-                            </ng-container>
-    
-                            <ng-container matColumnDef="id">
-                                <th style="text-align:center" mat-header-cell *matHeaderCellDef> Id </th>
-                                <td style="text-align:center" mat-cell *matCellDef="let element"> {{element.id}} </td>
-                            </ng-container>
-    
-                            <ng-container matColumnDef="created">
-                                <th style="text-align:center" mat-header-cell *matHeaderCellDef> Creado </th>
-                                <td style="text-align:center" mat-cell *matCellDef="let element">
-                                    {{element['regDate'].toMillis() | timeAgo}} </td>
-                            </ng-container>
-    
-                            <ng-container matColumnDef="lastactivity">
-                                <th style="text-align:center" mat-header-cell *matHeaderCellDef> Última Actividad </th>
-                                <td style="text-align:center" mat-cell *matCellDef="let element">
-                                    {{element['lastActivity'].toMillis() | timeAgo}} </td>
-                            </ng-container>
-    
-                            <ng-container matColumnDef="status">
-                                <th style="text-align:center" mat-header-cell *matHeaderCellDef> Estado </th>
-                                <td style="text-align:center" mat-cell *matCellDef="let element">
-                                    <span
-                                        [className]="element.status=='Abierto'?'status-label open':element.status==='Resuelto'?'status-label solved':'status-label waiting'">
-                                        {{element.status}}</span> </td>
-                            </ng-container>
-    
-                            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-                            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-                        </table>
-    
-    
-                    </div>
-                    <ng-template #empty>
-                        <div style="text-align: center; font-size: large;">No se encontró ninguna solicitud</div>
-                    </ng-template>
+                <div class="search-bar">
+                    <form style="font-size: 14px; display: flex; flex-wrap: wrap;" [formGroup]="search2FormGroup">
+                        <mat-form-field appearance="outline" color="warn"
+                            style="width:90%; max-width: 450px;margin-right: 15px;">
+                            <mat-label>Buscar</mat-label>
+                            <input matInput placeholder="Buscar" formControlName="search2" autocomplete="off">
+                            <mat-icon matSuffix>search</mat-icon>
+
+                        </mat-form-field>
+                        <mat-form-field appearance="outline" color="warn">
+                            <mat-label>Status</mat-label>
+                            <mat-select formControlName="status2">
+                                <mat-option value="Todos">Todos</mat-option>
+                                <mat-option value="Abierto">Abierto</mat-option>
+                                <mat-option value="Resuelto">Resuelto</mat-option>
+                                <mat-option value="Esperando respuesta">Esperando respuesta
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </form>
                 </div>
-                <div [hidden]="!dataSource2.data.length">
-                    <mat-paginator #paginator2 [pageSize]="[4]" showFirstLastButtons>
-                    </mat-paginator>
+
+                <div fxShow="true" fxHide.lt-md="true">
+                    <div *ngIf="requestOn$|async as list">
+                        <div *ngIf="list.length; else empty">
+                            <table mat-table [dataSource]="dataSource2" [hidden]="!list.length" style="width: 100%;">
+                                <ng-container matColumnDef="subject">
+                                    <th style="text-align:center" mat-header-cell *matHeaderCellDef> Asunto </th>
+                                    <td mat-cell *matCellDef="let element">
+                                        <a class="title-list" [routerLink]="['/request',element.id]">{{element.subject}}</a>
+                                    </td>
+                                </ng-container>
+    
+                                <ng-container matColumnDef="id">
+                                    <th style="text-align:center" mat-header-cell *matHeaderCellDef> Id </th>
+                                    <td style="text-align:center" mat-cell *matCellDef="let element"> {{element.id}} </td>
+                                </ng-container>
+    
+                                <ng-container matColumnDef="created">
+                                    <th style="text-align:center" mat-header-cell *matHeaderCellDef> Creado </th>
+                                    <td style="text-align:center" mat-cell *matCellDef="let element">
+                                        {{element['regDate'].toMillis() | timeAgo}} </td>
+                                </ng-container>
+    
+                                <ng-container matColumnDef="lastactivity">
+                                    <th style="text-align:center" mat-header-cell *matHeaderCellDef> Última Actividad </th>
+                                    <td style="text-align:center" mat-cell *matCellDef="let element">
+                                        {{element['lastActivity'].toMillis() | timeAgo}} </td>
+                                </ng-container>
+    
+                                <ng-container matColumnDef="status">
+                                    <th style="text-align:center" mat-header-cell *matHeaderCellDef> Estado </th>
+                                    <td style="text-align:center" mat-cell *matCellDef="let element">
+                                        <span
+                                            [className]="element.status=='Abierto'?'status-label open':element.status==='Resuelto'?'status-label solved':'status-label waiting'">
+                                            {{element.status}}</span> </td>
+                                </ng-container>
+    
+                                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                            </table>
+    
+    
+                        </div>
+                        <ng-template #empty>
+                            <div style="text-align: center; font-size: large;">No se encontró ninguna solicitud</div>
+                        </ng-template>
+                    </div>
+                    <div [hidden]="!dataSource2.data.length">
+                        <mat-paginator #paginator2 [pageSize]="[4]" showFirstLastButtons>
+                        </mat-paginator>
+                    </div>
+                </div>
+                <div fxShow="true" fxHide.gt-sm>
+                    <div *ngIf="requestOn$|async as list">
+                        <div *ngFor="let element of list" class="request">
+                            <div style="display: flex; flex-wrap: wrap; margin-bottom: 10px;">
+                                <a class="title-list" [routerLink]="['/request',element.id]">{{element.subject}}</a>
+                                <span style="flex: 1 1 auto"></span>
+                                <span>{{element.id}}</span>
+                            </div>
+                            <div class="request-details">
+                                <div class="dt">Creado</div>
+                                <div class="dd"><span>{{element['regDate'].toMillis() | timeAgo}}</span>
+                                </div>
+
+                                <div class="dt">Última actividad</div>
+                                <div class="dd"><span>{{element['lastActivity'].toMillis() | timeAgo}}</span></div>
+                                <div class="dt">Estado</div>
+                                <div class="dd">
+                                    <div
+                                        [className]="element.status=='Abierto'?'status-label open':element.status==='Resuelto'?'status-label solved':'status-label waiting'">
+                                        {{element.status}}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
                 </div>
             </mat-tab>
         </mat-tab-group>

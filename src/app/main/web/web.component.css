@@ -1,9 +1,9 @@
 .hero {
     background-image: linear-gradient(rgb(216, 215, 215), white);
-    height: 450px;
+    height: 75vh;
     text-align: center;
     position: relative;
-    margin-bottom: 60px;
+    margin-bottom: 8vh;
     padding: 0 5%;
 }
 
@@ -22,6 +22,12 @@
     font-weight: 600;
     margin: 0;
     margin-bottom: 18px;
+}
+
+@media(max-width:600px){
+    .hero-inner h1 {
+        font-size: 5.5vh;
+    }
 }
 
 h4 {
