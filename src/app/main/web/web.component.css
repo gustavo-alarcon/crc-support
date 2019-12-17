@@ -1,15 +1,15 @@
 .hero {
     background-image: linear-gradient(rgb(216, 215, 215), white);
     height: 450px;
-    padding: 0 20px;
     text-align: center;
     position: relative;
     margin-bottom: 60px;
+    padding: 0 5%;
 }
 
-.hero-inner {
-    max-width: 1160px;
+.hero-inner {   
     width: 100%;
+    max-width: 1160px;
     text-align: left;
     position: relative;
     top: 50%;
@@ -55,10 +55,11 @@ h4 {
     transition: transform .25s ease-out;
 }
 
-.product-item a{
+.product-item a {
     text-decoration: none;
     color: black;
 }
+
 .product-icon {
     height: 96px;
     padding-right: 16px;
@@ -73,12 +74,33 @@ h4 {
 .product-item p {
     margin-top: 0;
 }
+
 @media only screen and (max-width: 1280px) {
     .product-item {
         width: 50%;
         padding-right: 32px;
     }
 }
+
+::ng-deep .mat-form-field-appearance-outline .mat-form-field-outline {
+    background-color: white!important;
+    border-radius: 5px;
+    border: 1px solid rgb(216, 215, 215);
+}
+
+/*input outline color*/
+
+::ng-deep .mat-form-field-appearance-outline .mat-form-field-outline {
+    color: #ececec!important;
+    /* opacity: 1!important;*/
+}
+
+/*mat-input focused color*/
+
+::ng-deep .mat-form-field-appearance-outline.mat-focused .mat-form-field-outline-thick {
+    color: rgba(255, 0, 4, 1)!important;
+}
+
 /*
 /* mat-icon-stepper selected color change *
 ::ng-deep .mat-step-header .mat-step-icon-selected, .mat-step-header .mat-step-icon-state-done, .mat-step-header .mat-step-icon-state-edit {

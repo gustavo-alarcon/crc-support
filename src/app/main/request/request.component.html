@@ -1,105 +1,114 @@
-<div class="container" *ngIf="currentRequest$ | async as request" style="margin-top: 50px;">
-    <div style="margin-bottom: 30px;">
-        <h3 class="title">{{request.subject}}</h3>
-    </div>
-    <div class="request-container">
-        <div class="comments request-main">
-            <mat-divider></mat-divider>
-            <div class="respond-box" *ngIf="request.status!=='Resuelto'">
-                <h4>Respuesta</h4>
-                <form [formGroup]="dataFormGroup">
-                    <mat-form-field style="width: 100%" appearance="outline">
-                        <textarea matInput placeholder="Escribe..." cdkTextareaAutosize cdkAutosizeMinRows="5"
-                            cdkAutosizeMaxRows="10" #autosize="cdkTextareaAutosize" formControlName='text'></textarea>
-                    </mat-form-field>
-                </form>
-                <input #fileInput style="display: none" type="file" (change)="onFileSelected($event)">
-                <button mat-stroked-button color="warn" style="width: 100%;margin-bottom: 10px;"
-                    (click)="fileInput.click()">
-                    <mat-icon style="vertical-align: middle;">attach_file</mat-icon> Agregar archivo
-                </button>
-                <div *ngIf="selectedFile.length" style="display: flex; flex-wrap: wrap;">
-                    <div class="archivo" *ngFor="let file of selectedFile; let i = index">
-                        <mat-icon style="vertical-align: middle;">description</mat-icon>
-                        <span class="filename">{{file.name}}</span>
-                        <span style="flex: 1 1 auto;"></span>
-                        <mat-icon style="vertical-align: middle; transform: scale(0.8); cursor: pointer;"
-                            (click)="removeFile(i)">cancel
-                        </mat-icon>
+<div style="padding: 0 5%;">
+    <div class="container" *ngIf="currentRequest$ | async as request">
+        <div style="margin-bottom: 30px;">
+            <h3 class="title">{{request.subject}}</h3>
+        </div>
+        <div class="request-container">
+            <div class="comments request-main">
+                <mat-divider></mat-divider>
+                <div class="respond-box" *ngIf="request.status!=='Resuelto'">
+                    <h4>Respuesta</h4>
+                    <form [formGroup]="dataFormGroup">
+                        <mat-form-field style="width: 100%" appearance="outline">
+                            <textarea matInput placeholder="Escribe..." cdkTextareaAutosize cdkAutosizeMinRows="5"
+                                cdkAutosizeMaxRows="10" #autosize="cdkTextareaAutosize"
+                                formControlName='text' autocomplete="off"></textarea>
+                        </mat-form-field>
+                    </form>
+                    <input #fileInput style="display: none" type="file" (change)="onFileSelected($event)">
+                    <button mat-stroked-button color="warn" style="width: 100%;margin-bottom: 10px;"
+                        (click)="fileInput.click()">
+                        <mat-icon style="vertical-align: middle;">attach_file</mat-icon> Agregar archivo
+                    </button>
+                    <div *ngIf="selectedFile.length" style="display: flex; flex-wrap: wrap;">
+                        <div class="archivo" *ngFor="let file of selectedFile; let i = index">
+                            <mat-icon style="vertical-align: middle;">description</mat-icon>
+                            <span class="filename">{{file.name}}</span>
+                            <span style="flex: 1 1 auto;"></span>
+                            <mat-icon style="vertical-align: middle; transform: scale(0.8); cursor: pointer;"
+                                (click)="removeFile(i)">cancel
+                            </mat-icon>
+                        </div>
                     </div>
-                </div>
 
-                <div style="display: flex; flex-wrap: wrap; align-items: center;">
-                    <button mat-flat-button color="warn" class="button-large" [disabled]="!dataFormGroup.valid"
-                        (click)="send(request.requester.uid,request.id)">Enviar</button>
-                    <span style="flex: 1 1 auto;"></span>
-                    <mat-slide-toggle color="warn" matTooltip="Se cerrará la solicitud" [(ngModel)]="isSolved">Solicitud
-                        Resuelta</mat-slide-toggle>
+                    <div style="display: flex; flex-wrap: wrap; align-items: center;">
+                        <button mat-flat-button color="warn" class="button-large" [disabled]="!dataFormGroup.valid"
+                            (click)="send(request.requester.uid,request, request.comunicador)">Enviar</button>
+                        <span style="flex: 1 1 auto;"></span>
+                        <div *ngIf="request.comunicador || request.admin">
+                            <mat-slide-toggle color="warn" matTooltip="Se cerrará la solicitud" [(ngModel)]="isSolved">
+                                Solicitud
+                                Resuelta</mat-slide-toggle>
+                        </div>
+                    </div>
                 </div>
-            </div>
-            <div *ngIf="dbs.comments$ | async as comments">
-                <div class="comment" *ngFor="let comment of comments">
-                    <div class="comment-author">
-                        <div class="avatar comment-avatar">
-                            <!--<img src="https://support.esss.co/system/photos/0001/1413/1747/profile_image_716022603_346703.jpg"
-                                alt="" class="user-avatar">-->
-                            <mat-icon style="transform: scale(2) translateY(-5px);
-                                vertical-align: middle;">account_circle</mat-icon>
+                <div *ngIf="dbs.comments$ | async as comments">
+                    <div class="comment" *ngFor="let comment of comments">
+                        <div class="comment-author">
+                            <div class="avatar comment-avatar">
+                                <!--<img src="https://support.esss.co/system/photos/0001/1413/1747/profile_image_716022603_346703.jpg"
+                                    alt="" class="user-avatar">-->
+                                <mat-icon style="transform: scale(2) translateY(-5px);
+                                    vertical-align: middle;">account_circle</mat-icon>
+                            </div>
+                            <div style="margin-left: 20px;">
+                                <span>{{comment.createdBy.displayName}}</span><br>
+                                <span>{{comment.regDate.toMillis() | timeAgo}}</span>
+                            </div>
                         </div>
-                        <div style="margin-left: 20px;">
-                            <span>{{comment.createdBy.displayName}}</span><br>
-                            <span class="comment-time">{{comment.regDate.toMillis() | timeAgo}}</span>
+                        <div>
+                            <p class="zd-comment" *ngFor="let com of comment.comment.split('//')">
+                                {{com}}
+                            </p>
                         </div>
-                    </div>
-                    <div>
-                        <div class="zd-comment" dir="auto">
-                            {{comment.comment}}
-                        </div>
-                    </div>
-                    <div *ngIf="comment.files.length" style="margin-top: 10px;">
-                        <p>
-                            <mat-icon style="vertical-align: middle;">attach_file</mat-icon> Archivos adjuntos:
-                        </p>
-                        <div style="display: flex; flex-wrap: wrap;">
-                            <div style=" padding: 5px 10px; margin-right: 10px;border:1px solid silver; border-radius: 5px;"
-                                *ngFor="let file of comment.files;let i = index">
-                                <a [href]="file.url" style="text-decoration: none;">{{file.name}}</a>
+                        <div *ngIf="comment.files.length" style="margin-top: 10px;">
+                            <p>
+                                <mat-icon style="vertical-align: middle;">attach_file</mat-icon> Archivos adjuntos:
+                            </p>
+                            <div style="display: flex; flex-wrap: wrap;">
+                                <div style=" padding: 5px 10px; margin-right: 10px;border:1px solid silver; border-radius: 5px;"
+                                    *ngFor="let file of comment.files;let i = index">
+                                    <a [href]="file.url" style="text-decoration: none;"
+                                        target="_blank">{{file.name}}</a>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="info request-sidebar">
+            <div class="info request-sidebar">
 
-            <div class="request-details">
-                <div class="dt">Solicitante</div>
-                <div class="dd">{{request['requester']['displayName']}}</div>
+                <div class="request-details">
+                    <div class="dt">Solicitante</div>
+                    <div class="dd">{{request['requester']['displayName']}}</div>
 
-                <div class="dt">Creado</div>
-                <div class="dd"><span>{{request.regDate.toMillis() | date: 'MMM d, y, h:mm a'}}</span>
+                    <div class="dt">Creado</div>
+                    <div class="dd"><span>{{request.regDate.toMillis() | date: 'MMM d, y, h:mm a'}}</span>
+                    </div>
+
+                    <div class="dt">Última actividad</div>
+                    <div class="dd"><span>{{request['lastActivity'].toMillis() | date: 'MMM d, y, h:mm a'}}</span></div>
+
+
                 </div>
-
-                <div class="dt">Última actividad</div>
-                <div class="dd"><span>{{request['lastActivity'].toMillis() | date: 'MMM d, y, h:mm a'}}</span></div>
-
-
-            </div>
-            <div class="request-details">
-                <div class="dt">Asignado a:</div>
-                <div class="dd">
-                    <span *ngFor="let user of request.users">{{user.displayName}}</span>
-                </div>
-                <div class="dt">Id</div>
-                <div class="dd">{{request.id}}</div>
-                <div class="dt">Estado</div>
-                <div class="dd">
-                    <div
-                        [className]="request.status=='Abierto'?'status-label open':request.status==='Resuelto'?'status-label solved':'status-label waiting'">
-                        {{request.status}}
+                <div class="request-details">
+                    <div class="dt">Asignado a:</div>
+                    <div class="dd">
+                        <span *ngFor="let user of request.users">{{user.displayName}}</span>
+                    </div>
+                    <div class="dt">Id</div>
+                    <div class="dd">{{request.id}}</div>
+                    <div class="dt">Estado</div>
+                    <div class="dd">
+                        <div
+                            [className]="request.status=='Abierto'?'status-label open':request.status==='Resuelto'?'status-label solved':'status-label waiting'">
+                            {{request.status}}
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+    <br>
+
 </div>

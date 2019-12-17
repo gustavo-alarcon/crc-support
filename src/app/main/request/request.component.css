@@ -1,9 +1,9 @@
 .container {
     max-width: 1160px;
+    width: 100%;
     margin: auto;
-    padding: 0 5%;
-    margin-top: 40px;
-    min-height: 65vh;
+    margin-top: 7vh;
+    min-height: 64vh;
 }
 
 .request-container {

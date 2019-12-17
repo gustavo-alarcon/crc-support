@@ -1,41 +1,43 @@
-<mat-toolbar style="padding: 0 4%; background-color: white; border-bottom: 1px solid rgb(216, 215, 215);">
-    <mat-toolbar-row>
-        <mat-icon aria-hidden="false" aria-label="Example user verified icon">verified_user</mat-icon>
-        <span style="flex: 1 1 auto;"></span>
-
-        <button *ngIf="auth.user$ | async as user; else icon" class="sign-button" mat-button [matMenuTriggerFor]="menu">
-            <mat-icon style="margin-right: 6px; color: silver;">account_circle</mat-icon>
-            <span>{{user.displayName}}</span>
-            <mat-icon>arrow_drop_down</mat-icon>
-        </button>
-        <mat-menu #menu="matMenu">
-            <button mat-menu-item routerLink="/requests">Mi actividad</button>
-            <button mat-menu-item>Cambiar contraseña</button>
-            <button mat-menu-item (click)="auth.signOut()">Salir</button>
-        </mat-menu>
-        <ng-template #icon>
-            <button class="sign-button" mat-button color="warn" (click)="login()">Sign in</button>
-        </ng-template>
-
-        <button *ngIf="auth.user$ | async as user; else other" class="button-large" mat-flat-button color="warn"
-            routerLink="/new_request">Nueva Solicitud</button>
-        <ng-template #other>
-            <button class="button-large" mat-flat-button color="warn" (click)="login()">Nueva Solicitud</button>
-        </ng-template>
-
-    </mat-toolbar-row>
-</mat-toolbar>
-<router-outlet></router-outlet>
-<footer class="footer">
-    <div class="footer-inner">
-        <a title="Home" href="https://www.esss.co/">Home</a>
-        <a title="Home" href="https://www.esss.co/iesss/">Education</a>
-        <a title="Home" href="/hc/en-us">Technical Content</a>
-        <a title="Home" href="https://www.esss.co/empresa/">Company</a>
-        <a title="Home" href="https://www.esss.co/contato/">contact</a>
-
-        <div class="footer-language-selector">
-
+<div style="min-height: 100vh;">
+    <mat-toolbar style="padding: 0 5%; background-color: white; border-bottom: 1px solid rgb(216, 215, 215);">
+        <mat-toolbar-row style="padding: 0 ">
+            <div routerLink="" style="color: #2b2b2b; cursor: pointer;">
+                Intelligent Partner
+            </div>
+            <span style="flex: 1 1 auto;"></span>
+    
+            <button *ngIf="auth.user$ | async as user; else icon" class="sign-button" mat-button [matMenuTriggerFor]="menu">
+                <mat-icon style="margin-right: 6px; color: silver;">account_circle</mat-icon>
+                <span>{{user.displayName}}</span>
+                <mat-icon>arrow_drop_down</mat-icon>
+            </button>
+            <mat-menu #menu="matMenu">
+                <button mat-menu-item routerLink="/requests">Mi actividad</button>
+                <button mat-menu-item>Cambiar contraseña</button>
+                <button mat-menu-item (click)="auth.signOut()">Salir</button>
+            </mat-menu>
+            <ng-template #icon>
+                <button class="sign-button" mat-button color="warn" (click)="login()">Sign in</button>
+            </ng-template>
+    
+            <button *ngIf="auth.user$ | async as user; else other" class="button-large" mat-flat-button color="warn"
+                routerLink="/new_request">Nueva Solicitud</button>
+            <ng-template #other>
+                <button class="button-large" mat-flat-button color="warn" (click)="login()">Nueva Solicitud</button>
+            </ng-template>
+    
+        </mat-toolbar-row>
+    </mat-toolbar>
+    <router-outlet></router-outlet>
+    <footer class="footer">
+        <div class="footer-inner">
+            <a title="Home" routerLink="">Home</a>
+            <a title="Contenido" href="">Contenido Técnico</a>
+            <a title="Contacto">Contacto</a>
+    
+            <div class="footer-language-selector">
+    
+            </div>
         </div>
-    </div>
-</footer>
+    </footer>
+</div>
