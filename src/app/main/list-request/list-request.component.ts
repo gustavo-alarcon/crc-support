@@ -1,5 +1,5 @@
 import { FormGroup, FormBuilder } from '@angular/forms';
-import { map, debounceTime, distinctUntilChanged, startWith, combineAll, filter } from 'rxjs/operators';
+import { map, debounceTime, distinctUntilChanged, startWith, combineAll, filter, tap } from 'rxjs/operators';
 import { Observable, combineLatest, of, race } from 'rxjs';
 import { AuthService } from './../../core/services/auth.service';
 import { Component, OnInit, ViewChild } from '@angular/core';
@@ -18,8 +18,6 @@ export class ListRequestComponent implements OnInit {
   displayedColumns: string[] = ['subject', 'id', 'created', 'lastactivity', 'status'];
   dataSource = new MatTableDataSource();
   dataSource2 = new MatTableDataSource();
-  search: boolean = false
-  search$: Observable<any>
 
   requests$: Observable<any>
   requestOn$: Observable<any>
@@ -36,12 +34,10 @@ export class ListRequestComponent implements OnInit {
     public dbs: DatabaseService,
     private fb: FormBuilder
   ) {
-
+   
   }
 
   ngOnInit() {
-    
-
     this.search1FormGroup = this.fb.group({
       search1: '',
       status1: ''
@@ -56,8 +52,15 @@ export class ListRequestComponent implements OnInit {
       combineLatest(
         this.dbs.requests$,
         this.auth.user$,
+        this.search2FormGroup.get('search2').valueChanges.pipe(
+          startWith('')
+        ),
+        this.search2FormGroup.get('status2').valueChanges.pipe(
+          startWith('Todos')
+        )
+
       ).pipe(
-        map(([requests, user]) => {
+        map(([requests, user, word, state]) => {
           let result = []
           requests.forEach(request => {
             request.users.forEach(ele => {
@@ -66,84 +69,42 @@ export class ListRequestComponent implements OnInit {
               }
             })
           })
-          return result
+          let filterText = result.filter(el => el.subject.toLowerCase().includes(word.toLowerCase()))
+          return state == "Todos" ? filterText : filterText.filter(el => el.status == state)
+        }),
+        tap(res => {
+          this.dataSource2.data = res
+          this.dataSource2.paginator = this.paginator2
         })
       )
     this.requests$ =
       combineLatest(
         this.dbs.requests$,
         this.auth.user$,
+        this.search1FormGroup.get('search1').valueChanges
+          .pipe(
+            startWith('')
+          ),
+        this.search1FormGroup.get('status1').valueChanges
+          .pipe(
+            startWith('Todos')
+          )
       ).pipe(
-        map(([requests, user]) => requests.filter(el => el.requester.uid === user.uid))
+        map(([requests,user, word, state]) => {
+          let result=requests.filter(el=>el.requester.uid===user.uid)
+          let filterText = result.filter(el => el.subject.toLowerCase().includes(word.toLowerCase()))
+          return state == "Todos" ? filterText : filterText.filter(el => el.status == state)
+        }),
+        tap(res => {
+          if (res) {
+            this.dataSource.data = res
+            this.dataSource.paginator = this.paginator1
+          }
+        })
       )
 
-
-    this.requests$.subscribe(res => {
-      if (res) {
-        console.log(res);
-        this.dataSource.paginator = this.paginator1
-        this.dataSource.data = res
-      }
-    })
-    this.requestOn$.subscribe(res => {
-      if (res) {
-        this.dataSource2.paginator = this.paginator2
-        this.dataSource2.data = res
-      }
-    })
   }
-  searching(e) {
-    this.search$ = this.requests$.pipe(
-      map(request => request.filter(el => el.name.toLowerCase().includes(e.toLowerCase())))
-    )
-
-    this.search$.subscribe(res => {
-      if (res) {
-        this.dataSource.data = res
-      }
-    })
-  }
-
-  searching2(e) {
-    console.log(e);
-    this.search$ = this.requestOn$.pipe(
-      map(request => request.filter(el => el.name.toLowerCase().includes(e.toLowerCase())))
-    )
-
-    this.search$.subscribe(res => {
-      if (res) {
-        this.dataSource2.data = res
-      }
-    })
-  }
-  selectState() {
-    let e = this.search1FormGroup.get("status1").value
-    console.log(e);
-
-    this.search$ = this.requests$.pipe(
-      map(request => e == "Todos" ? request : request.filter(el => el.status == e))
-    )
-
-    this.search$.subscribe(res => {
-      if (res) {
-        this.dataSource.data = res
-      }
-    })
-  }
-
-  selectState2() {
-    let e = this.search2FormGroup.get("status2").value
-    this.search$ = this.requestOn$.pipe(
-      map(request => e == "Todos" ? request : request.filter(el => el.status == e))
-    )
-
-    this.search$.subscribe(res => {
-      if (res) {
-        this.dataSource2.data = res
-      }
-    })
-  }
-
+  
 
 
 }

@@ -48,8 +48,9 @@ export class LoginComponent implements OnInit {
     let data = {
       email: this.dataFormGroup.get('email').value,
       password: this.dataFormGroup.get('pass').value,
-      displayName: 'Usuario Prueba',
-      role: 'admin'
+      displayName: 'Gustavo Alarcón',
+      role: 'communicator',
+      jobTitle: 'FullStack Developer'
     }
     this.auth.signUp(data)
       .then(res => {

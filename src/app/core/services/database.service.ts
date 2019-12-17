@@ -170,6 +170,12 @@ export class DatabaseService {
     })
 
 
-
+    
   }
+
+  sendEmail(message) {
+    let doc = this.af.firestore.collection(`mail`).doc();
+    doc.set(message)
+  }
+  
 }

@@ -70,21 +70,14 @@ export class NewRequestComponent implements OnInit {
     });
   }
   add(event: MatChipInputEvent): void {
-    // Add fruit only when MatAutocomplete is not open
-    // To make sure this does not conflict with OptionSelected Event
     if (!this.matAutocomplete.isOpen) {
       const input = event.input;
       const value = event.value;
 
-      // Add our fruit
       if ((value || '').trim()) {
         this.users.push(value.trim());
       }
 
-      // Reset the input value
-      if (input) {
-        input.value = '';
-      }
     }
   }
 
@@ -116,6 +109,7 @@ export class NewRequestComponent implements OnInit {
   }
 
   saveRequest() {
+    let text = this.dataFormGroup.get('description').value.split(/\r?\n/g).filter(option => !!option).join('//')
     let data = {
       regDate: new Date(),
       users: this.users.filter(el => el),//verificar que filtra
@@ -127,16 +121,33 @@ export class NewRequestComponent implements OnInit {
     }
     let comment = {
       regDate: new Date(),
-      comment: this.dataFormGroup.get('description').value,
+      comment: text,
       files: this.selectedFile,
       createdBy: this.currentUser
     }
 
-    this.dbs.saveRequests(this.currentUser.uid, data, comment)
+    //this.dbs.saveRequests(this.currentUser.uid, data, comment)
+
+
+    let message = {
+      toUids: this.users.map(el => el.uid),
+      template: {
+        name: 'email',
+        data: {
+          subject: "Solicitud: " + this.dataFormGroup.get('subject').value,
+          comment: text.split('//'),
+          user: this.currentUser.displayName,
+          request: this.dataFormGroup.get('subject').value,
+          id: this.numberRequest
+        }
+      }
+    }
+
+    //this.dbs.sendEmail(message)
+
     this.dataFormGroup.reset()
     this.users = []
     this.selectedFile = []
-
   }
 
 }

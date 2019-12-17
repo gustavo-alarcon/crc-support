@@ -18,7 +18,6 @@ export class RequestComponent implements OnInit {
   dataFormGroup: FormGroup
   currentUser: any
   isRespond: boolean = false
-  show: boolean = false
   isSolved: boolean = false
   selectedFile: Array<any> = []
   constructor(
@@ -27,23 +26,8 @@ export class RequestComponent implements OnInit {
     private route: ActivatedRoute,
     private fb: FormBuilder
   ) {
-    this.route.params.subscribe(res => {
-      if (res) {
-        this.dbs.getComments(res.id)
-        this.dbs.comments$.subscribe(res => {
-          if (res) {
-            if (res.length > 1) {
-              this.show = true
-            }
-          }
-        })
-      }
-    })
-    this.auth.user$.subscribe(res => {
-      if (res) {
-        this.currentUser = res
-      }
-    })
+
+
   }
 
   ngOnInit() {
@@ -55,22 +39,22 @@ export class RequestComponent implements OnInit {
       ).pipe(
         map(([request, route, user]) => {
           let index = null
+          this.currentUser = user
+          this.dbs.getComments(route.id)
           request.forEach(el => {
             if (el.id == route.id) {
-              index = el
-              this.isRespond = el['requester']['uid'] !== user['uid']
+              index = {
+                ...el,
+                comunicador: user.role == 'communicator',
+                admin: user.role == 'admin',
+                isrequester: el['requester']['uid'] == user['uid']
+              }
             }
           })
           return index
         })
       )
 
-    this.currentRequest$.subscribe(res => {
-      if (res) {
-        console.log(res);
-
-      }
-    })
     this.dataFormGroup = this.fb.group({
       text: [null, [Validators.required]]
     })
@@ -89,21 +73,38 @@ export class RequestComponent implements OnInit {
     }
   }
 
-  send(uid, id) {
+  send(uid, request, respond) {
+    let text = this.dataFormGroup.get('text').value.split(/\r?\n/g).filter(option => !!option).join('//')
     let comment = {
       regDate: new Date(),
-      comment: this.dataFormGroup.get('text').value,
+      comment: text,
       files: this.selectedFile,
       createdBy: this.currentUser
     }
-    this.dbs.updateRequest(uid, id, comment, this.isRespond, this.isSolved)
-
+    this.dbs.updateRequest(uid, request.id, comment, respond, this.isSolved)
     
+    let message = {
+      toUids: [this.currentUser.uid!==uid?uid:request.users.map(el=>el.uid)],
+      template: {
+        name: 'email',
+        data: {
+          subject: "Solicitud: "+ request.subject,
+          comment:text.split('//'),
+          user: this.currentUser.displayName,
+          request: request.subject,
+          id: request.id.substring(1)
+        }
+      }
+    }
+
+    this.dbs.sendEmail(message)
+    
+
     this.dataFormGroup.reset()
     this.isSolved = false
 
 
-    
+
 
 
   }

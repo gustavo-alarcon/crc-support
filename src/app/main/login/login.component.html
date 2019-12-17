@@ -5,7 +5,7 @@
 </div>
 <p style="text-align: center;margin-top: 0; margin-bottom: 2em;">Sign in to Intelligent Partner</p>
 <mat-dialog-content>
-    <form [formGroup]="dataFormGroup">
+    <form [formGroup]="dataFormGroup" (keyup.enter)="dataFormGroup.valid?login():''">
         <mat-form-field style="width: 100%" appearance="outline">
             <mat-label>Email</mat-label>
             <input matInput type="text" formControlName="email" placeholder="Email" autocomplete="off">
@@ -14,7 +14,7 @@
         <mat-form-field style="width: 100%" appearance="outline">
             <mat-label>Password</mat-label>
             <input matInput [type]="hidePass ? 'password' : 'text'" formControlName="pass" placeholder="***"
-                autocomplete="off" (keyup.enter)="dataFormGroup.valid?login():''">
+                autocomplete="off" >
             <button mat-icon-button matSuffix (click)="hidePass = !hidePass" [attr.aria-label]="'Ocultar contraseña'"
                 [attr.aria-pressed]="hidePass">
                 <mat-icon>{{hidePass ? 'visibility_off' : 'visibility'}}</mat-icon>
