@@ -119,7 +119,7 @@ export class NewRequestComponent implements OnInit {
     let data = {
       regDate: new Date(),
       users: this.users.filter(el => el),//verificar que filtra
-      status: 'En espera',
+      status: 'Abierto',
       lastActivity: new Date(),
       id: '#' + this.numberRequest,
       subject: this.dataFormGroup.get('subject').value,

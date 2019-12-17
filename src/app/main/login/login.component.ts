@@ -10,7 +10,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 })
 export class LoginComponent implements OnInit {
   dataFormGroup: FormGroup;
-
+  hidePass: boolean = true;
   constructor(
     public dialogRef: MatDialogRef<LoginComponent>,
     private fb: FormBuilder,

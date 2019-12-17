@@ -1,5 +1,5 @@
 <div class="container">
-    <h1>Mis solicitudes</h1>
+    <h1>Solicitudes</h1>
     <mat-tab-group color="warn">
         <mat-tab label="Mis solicitudes">
             <mat-toolbar style="background-color: white; margin: 50px 0;">
@@ -15,7 +15,7 @@
                         <mat-form-field appearance="outline" color="warn" style="margin-left: 15px;">
                             <mat-label>Status</mat-label>
                             <mat-select formControlName="status1">
-                                <mat-option value="any" (click)="selectState()">Todos</mat-option>
+                                <mat-option value="Todos" (click)="selectState()">Todos</mat-option>
                                 <mat-option value="Abierto" (click)="selectState()">Abierto</mat-option>
                                 <mat-option value="Resuelto" (click)="selectState()">Resuelto</mat-option>
                                 <mat-option value="Esperando respuesta" (click)="selectState()">Esperando respuesta
@@ -55,19 +55,22 @@
                         <ng-container matColumnDef="status">
                             <th style="text-align:center" mat-header-cell *matHeaderCellDef> Estado </th>
                             <td style="text-align:center" mat-cell *matCellDef="let element">
-                                <span [className]="element.status=='Abierto'?'status-label open':element.status==='Resuelto'?'status-label solved':'status-label waiting'"> {{element.status}}</span> </td>
+                                <span
+                                    [className]="element.status=='Abierto'?'status-label open':element.status==='Resuelto'?'status-label solved':'status-label waiting'">
+                                    {{element.status}}</span> </td>
                         </ng-container>
 
                         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
                         <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
                     </table>
-
-                    <mat-paginator [pageSize]="[4]" showFirstLastButtons>
-                    </mat-paginator>
                 </div>
                 <ng-template #nothing>
                     <div style="text-align: center; font-size: large;">No se encontró ninguna solicitud</div>
                 </ng-template>
+            </div>
+            <div [hidden]="!dataSource.data.length">
+                <mat-paginator [pageSize]="[4]" showFirstLastButtons #paginator1>
+                </mat-paginator>
             </div>
         </mat-tab>
         <mat-tab label="Solicitudes en que participo">
@@ -124,19 +127,24 @@
                         <ng-container matColumnDef="status">
                             <th style="text-align:center" mat-header-cell *matHeaderCellDef> Estado </th>
                             <td style="text-align:center" mat-cell *matCellDef="let element">
-                                <span [className]="element.status=='Abierto'?'status-label open':element.status==='Resuelto'?'status-label solve':'status-label waiting'"> {{element.status}}</span> </td>
+                                <span
+                                    [className]="element.status=='Abierto'?'status-label open':element.status==='Resuelto'?'status-label solved':'status-label waiting'">
+                                    {{element.status}}</span> </td>
                         </ng-container>
 
                         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
                         <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
                     </table>
 
-                    <mat-paginator [pageSize]="[4]" showFirstLastButtons>
-                    </mat-paginator>
+
                 </div>
                 <ng-template #empty>
                     <div style="text-align: center; font-size: large;">No se encontró ninguna solicitud</div>
                 </ng-template>
+            </div>
+            <div [hidden]="!dataSource2.data.length">
+                <mat-paginator #paginator2 [pageSize]="[4]" showFirstLastButtons>
+                </mat-paginator>
             </div>
         </mat-tab>
     </mat-tab-group>

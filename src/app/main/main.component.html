@@ -9,7 +9,7 @@
             <mat-icon>arrow_drop_down</mat-icon>
         </button>
         <mat-menu #menu="matMenu">
-            <button mat-menu-item routerLink="/requests">Mis actividades</button>
+            <button mat-menu-item routerLink="/requests">Mi actividad</button>
             <button mat-menu-item>Cambiar contraseña</button>
             <button mat-menu-item (click)="auth.signOut()">Salir</button>
         </mat-menu>
@@ -17,20 +17,25 @@
             <button class="sign-button" mat-button color="warn" (click)="login()">Sign in</button>
         </ng-template>
 
-        <button class="button-large" mat-flat-button color="warn" routerLink="/new_request">Submit a request</button>
+        <button *ngIf="auth.user$ | async as user; else other" class="button-large" mat-flat-button color="warn"
+            routerLink="/new_request">Nueva Solicitud</button>
+        <ng-template #other>
+            <button class="button-large" mat-flat-button color="warn" (click)="login()">Nueva Solicitud</button>
+        </ng-template>
+
     </mat-toolbar-row>
 </mat-toolbar>
 <router-outlet></router-outlet>
 <footer class="footer">
     <div class="footer-inner">
-      <a title="Home" href="https://www.esss.co/">Home</a>
-      <a title="Home" href="https://www.esss.co/iesss/">Education</a>
-      <a title="Home" href="/hc/en-us">Technical Content</a>
-      <a title="Home" href="https://www.esss.co/empresa/">Company</a>
-      <a title="Home" href="https://www.esss.co/contato/">contact</a>
-      
-      <div class="footer-language-selector">
-        
-      </div>
+        <a title="Home" href="https://www.esss.co/">Home</a>
+        <a title="Home" href="https://www.esss.co/iesss/">Education</a>
+        <a title="Home" href="/hc/en-us">Technical Content</a>
+        <a title="Home" href="https://www.esss.co/empresa/">Company</a>
+        <a title="Home" href="https://www.esss.co/contato/">contact</a>
+
+        <div class="footer-language-selector">
+
+        </div>
     </div>
-  </footer>
+</footer>

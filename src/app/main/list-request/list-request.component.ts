@@ -28,7 +28,8 @@ export class ListRequestComponent implements OnInit {
   search2FormGroup: FormGroup;
 
 
-  @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
+  @ViewChild("paginator1", { static: true }) paginator1: MatPaginator;
+  @ViewChild("paginator2", { static: true }) paginator2: MatPaginator;
 
   constructor(
     public auth: AuthService,
@@ -39,7 +40,7 @@ export class ListRequestComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.dataSource.paginator = this.paginator;
+    
 
     this.search1FormGroup = this.fb.group({
       search1: '',
@@ -68,24 +69,25 @@ export class ListRequestComponent implements OnInit {
           return result
         })
       )
-      this.requests$ =
+    this.requests$ =
       combineLatest(
         this.dbs.requests$,
         this.auth.user$,
       ).pipe(
-        map(([requests, user]) => requests.filter(el=>el.requester.uid===user.uid))
+        map(([requests, user]) => requests.filter(el => el.requester.uid === user.uid))
       )
-    
+
 
     this.requests$.subscribe(res => {
       if (res) {
         console.log(res);
-        
+        this.dataSource.paginator = this.paginator1
         this.dataSource.data = res
       }
     })
     this.requestOn$.subscribe(res => {
       if (res) {
+        this.dataSource2.paginator = this.paginator2
         this.dataSource2.data = res
       }
     })
@@ -116,6 +118,8 @@ export class ListRequestComponent implements OnInit {
   }
   selectState() {
     let e = this.search1FormGroup.get("status1").value
+    console.log(e);
+
     this.search$ = this.requests$.pipe(
       map(request => e == "Todos" ? request : request.filter(el => el.status == e))
     )

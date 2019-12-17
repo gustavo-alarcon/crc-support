@@ -9,7 +9,7 @@ import { LoginComponent } from './login/login.component';
   styleUrls: ['./main.component.css']
 })
 export class MainComponent implements OnInit {
-
+  islogin: boolean = false
   constructor(
     private dialog: MatDialog,
     public auth: AuthService

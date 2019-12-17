@@ -3,7 +3,7 @@
         <mat-icon>close</mat-icon>
     </button>
 </div>
-<p style="text-align: center;margin-top: 0; margin-bottom: 2em;">Sign in to Customer Service</p>
+<p style="text-align: center;margin-top: 0; margin-bottom: 2em;">Sign in to Intelligent Partner</p>
 <mat-dialog-content>
     <form [formGroup]="dataFormGroup">
         <mat-form-field style="width: 100%" appearance="outline">
@@ -13,13 +13,18 @@
         </mat-form-field>
         <mat-form-field style="width: 100%" appearance="outline">
             <mat-label>Password</mat-label>
-            <input matInput type="password" formControlName="pass" placeholder="***" autocomplete="off">
+            <input matInput [type]="hidePass ? 'password' : 'text'" formControlName="pass" placeholder="***"
+                autocomplete="off" (keyup.enter)="dataFormGroup.valid?login():''">
+            <button mat-icon-button matSuffix (click)="hidePass = !hidePass" [attr.aria-label]="'Ocultar contraseña'"
+                [attr.aria-pressed]="hidePass">
+                <mat-icon>{{hidePass ? 'visibility_off' : 'visibility'}}</mat-icon>
+            </button>
             <mat-error>Contraseña requerida *</mat-error>
         </mat-form-field>
     </form>
 </mat-dialog-content>
 
 <mat-dialog-actions>
-    <button mat-flat-button color="primary" style="width: 100%;margin-bottom: 2em;" [disabled]="!dataFormGroup.valid"
+    <button mat-flat-button color="primary" style="width: 100%;margin-bottom: 2em; height: 45px;" [disabled]="!dataFormGroup.valid"
         (click)="login()">Sign in</button>
 </mat-dialog-actions>
