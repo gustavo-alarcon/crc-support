@@ -1,3 +1,4 @@
+import { DatabaseService } from './../core/services/database.service';
 import { AuthService } from './../core/services/auth.service';
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material';
@@ -12,7 +13,8 @@ export class MainComponent implements OnInit {
   islogin: boolean = false
   constructor(
     private dialog: MatDialog,
-    public auth: AuthService
+    public auth: AuthService,
+    public dbs: DatabaseService
   ) { }
 
   ngOnInit() {

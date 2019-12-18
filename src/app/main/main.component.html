@@ -32,16 +32,29 @@
 
         </mat-toolbar-row>
     </mat-toolbar>
-    <router-outlet></router-outlet>
-    <footer class="footer">
-        <div class="footer-inner">
-            <a title="Home" routerLink="">Home</a>
-            <a title="Contenido" href="">Contenido Técnico</a>
-            <a title="Contacto">Contacto</a>
-
-            <div class="footer-language-selector">
-
+    <ng-template #loader>
+        <div style="height: 90vh;" class="w3-display-container">
+            <div class="lds-ring w3-display-middle">
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
             </div>
         </div>
-    </footer>
+    </ng-template>
+    <div *ngIf="dbs.users$ | async; else loader">
+        <router-outlet></router-outlet>
+
+        <footer class="footer">
+            <div class="footer-inner">
+                <a title="Home" routerLink="">Home</a>
+                <a title="Contenido" href="">Contenido Técnico</a>
+                <a title="Contacto">Contacto</a>
+
+                <div class="footer-language-selector">
+
+                </div>
+            </div>
+        </footer>
+    </div>
 </div>

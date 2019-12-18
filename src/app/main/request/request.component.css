@@ -37,6 +37,27 @@
     padding: 8px 30px 10px 30px;
 }
 
+.button-large {
+    background-color: rgba(255, 0, 4, 1);
+    color: #FFFFFF;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 2.72;
+    min-width: 190px;
+    padding: 0 1.9286em;
+    margin-top: 20px;
+}
+
+@media(max-width: 600px) {
+    .respond-box {
+        padding: 8px 15px;
+    }
+    .respond-box .button-large {
+        min-width: 100px;
+        margin-top: 0;
+    }
+}
+
 ::ng-deep .mat-form-field-appearance-outline .mat-form-field-outline {
     background-color: white!important;
     border-radius: 5px;
@@ -80,7 +101,8 @@
     font-size: 13px;
     font-weight: 300;
 }
-.request-sidebar{
+
+.request-sidebar {
     display: none;
 }
 
@@ -141,19 +163,9 @@
 .open {
     background-color: #1eb848;
 }
-.waiting{
-    background-color: rgb(255, 102, 0);
-}
 
-.button-large {
-    background-color: rgba(255, 0, 4, 1);
-    color: #FFFFFF;
-    font-size: 14px;
-    font-weight: 400;
-    line-height: 2.72;
-    min-width: 190px;
-    padding: 0 1.9286em;
-    margin-top: 20px;
+.waiting {
+    background-color: rgb(255, 102, 0);
 }
 
 .archivo {
