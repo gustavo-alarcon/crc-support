@@ -15,6 +15,7 @@
             <mat-menu #menu="matMenu">
                 <button mat-menu-item routerLink="/requests">Mi actividad</button>
                 <button mat-menu-item routerLink="/new_request" fxShow="true" fxHide.gt-sm>Nueva Solicitud</button>
+                <button mat-menu-item *ngIf="user.role=='admin'" routerLink="/admin">Configuración</button>
                 <button mat-menu-item>Cambiar contraseña</button>
                 <button mat-menu-item (click)="auth.signOut()">Salir</button>
             </mat-menu>

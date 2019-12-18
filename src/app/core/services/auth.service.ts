@@ -51,7 +51,7 @@ export class AuthService {
       uid: user.uid,
       email: user.email,
       displayName: data.displayName,
-      role: 'admin',
+      role: data.role,
       regDate: new Date()
     }
 

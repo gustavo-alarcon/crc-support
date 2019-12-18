@@ -27,11 +27,13 @@ import {
   MatChipsModule,
   MatAutocompleteModule,
   MatSlideToggleModule,
-  MatTooltip,
   MatTooltipModule
+  MatStepperModule
 } from '@angular/material';
 import { ListRequestComponent } from './list-request/list-request.component';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { AdminComponent } from './admin/admin.component';
+import { NewUserComponent } from './new-user/new-user.component';
 import { TimeAgoPipe } from 'time-ago-pipe';
 
 @NgModule({
@@ -42,6 +44,8 @@ import { TimeAgoPipe } from 'time-ago-pipe';
     NewRequestComponent,
     RequestComponent,
     ListRequestComponent,
+    AdminComponent,
+    NewUserComponent],
     TimeAgoPipe],
   imports: [
     CommonModule,
@@ -67,9 +71,11 @@ import { TimeAgoPipe } from 'time-ago-pipe';
     MatSlideToggleModule,
     MatTooltipModule,
     FlexLayoutModule
+    MatStepperModule
   ],
   entryComponents: [
-    LoginComponent
+    LoginComponent,
+    NewUserComponent
   ]
 })
 export class MainModule { }
