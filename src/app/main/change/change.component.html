@@ -1,0 +1,44 @@
+<div style="text-align: right;">
+    <button mat-icon-button mat-dialog-close>
+        <mat-icon>close</mat-icon>
+    </button>
+</div>
+<p style="text-align: center;margin-top: 0; margin-bottom: 2em;">Change Password</p>
+<mat-dialog-content>
+    <form [formGroup]="dataFormGroup">
+        <mat-form-field style="width: 100%" appearance="outline">
+            <mat-label>Contraseña Actual</mat-label>
+            <input matInput [type]="hideRePass ? 'password' : 'text'" formControlName="currentPass"
+                placeholder="Repita constraseña..." autocomplete="off">
+            <button mat-icon-button matSuffix (click)="hideRePass = !hideRePass"
+                [attr.aria-label]="'Ocultar contraseña'" [attr.aria-pressed]="hideRePass">
+                <mat-icon>{{hideRePass ? 'visibility_off' : 'visibility'}}</mat-icon>
+            </button>
+            <mat-error *ngIf="dataFormGroup.get('currentPass').hasError('required')">Contraseña anterior requerida *
+            </mat-error>
+            <mat-error *ngIf="dataFormGroup.get('currentPass').hasError('passValid')">No coincide contraseña
+            </mat-error>
+        </mat-form-field>
+        <mat-form-field style="width: 100%" appearance="outline">
+            <mat-label>Nueva Contraseña</mat-label>
+            <input matInput [type]="hidePass ? 'password' : 'text'" formControlName="newPass" placeholder="***"
+                autocomplete="off">
+            <button mat-icon-button matSuffix (click)="hidePass = !hidePass" [attr.aria-label]="'Ocultar contraseña'"
+                [attr.aria-pressed]="hidePass">
+                <mat-icon>{{hidePass ? 'visibility_off' : 'visibility'}}</mat-icon>
+            </button>
+            <mat-error *ngIf="dataFormGroup.get('newPass').hasError('minlength')">
+                Debe tener un mínimo de 6 caracteres
+            </mat-error>
+            <mat-error *ngIf="dataFormGroup.get('newPass').hasError('required')">
+                Contraseña requerida *</mat-error>
+            <mat-error *ngIf="dataFormGroup.get('newPass').hasError('passValid')">
+                La contraseña nueva no debe ser igual a la anterior </mat-error>
+        </mat-form-field>
+    </form>
+</mat-dialog-content>
+
+<mat-dialog-actions>
+    <button mat-flat-button color="primary" style="width: 100%;margin-bottom: 2em; height: 45px;"
+        [disabled]=" !dataFormGroup.valid" (click)="reset()">Cambiar Contraseña</button>
+</mat-dialog-actions>

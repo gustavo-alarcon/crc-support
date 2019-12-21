@@ -3,8 +3,8 @@ import { Router } from '@angular/router';
 import { auth } from 'firebase/app';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { AngularFirestore, AngularFirestoreDocument } from '@angular/fire/firestore';
-import { Observable, of } from 'rxjs';
-import { switchMap } from 'rxjs/operators';
+import { Observable, of, combineLatest } from 'rxjs';
+import { switchMap, delay, map } from 'rxjs/operators';
 @Injectable({
   providedIn: 'root'
 })
@@ -27,7 +27,7 @@ export class AuthService {
         }
       })
     );
-   }
+  }
   /**
    * @desc Sign Up with google's services
    * @returns user credentials <Promise<any>>
@@ -52,7 +52,8 @@ export class AuthService {
       email: user.email,
       displayName: data.displayName,
       role: data.role,
-      regDate: new Date()
+      regDate: new Date(),
+      jobTitle: data.jobTitle
     }
 
 

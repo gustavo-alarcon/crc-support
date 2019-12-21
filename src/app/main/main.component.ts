@@ -1,3 +1,4 @@
+import { ChangeComponent } from './change/change.component';
 import { DatabaseService } from './../core/services/database.service';
 import { AuthService } from './../core/services/auth.service';
 import { Component, OnInit } from '@angular/core';
@@ -18,12 +19,27 @@ export class MainComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.auth.user$.subscribe(res => {
+      if (res) {
+        console.log(res);
 
+      } else {
+        console.log('no login');
+
+      }
+    })
   }
 
   login() {
     this.dialog.open(LoginComponent, {
       width: "350px"
+    })
+  }
+
+  changePassword(user) {
+    this.dialog.open(ChangeComponent, {
+      width: "350px",
+      data: user
     })
   }
 

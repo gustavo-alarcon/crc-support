@@ -6,19 +6,20 @@
             </div>
             <span style="flex: 1 1 auto;"></span>
 
-            <button *ngIf="auth.user$ | async as user; else icon" class="sign-button" mat-button
-                [matMenuTriggerFor]="menu">
-                <mat-icon style="margin-right: 6px; color: silver;">account_circle</mat-icon>
-                <span>{{user.displayName}}</span>
-                <mat-icon>arrow_drop_down</mat-icon>
-            </button>
-            <mat-menu #menu="matMenu">
-                <button mat-menu-item routerLink="/requests">Mi actividad</button>
-                <button mat-menu-item routerLink="/new_request" fxShow="true" fxHide.gt-sm>Nueva Solicitud</button>
-                <button mat-menu-item *ngIf="user.role=='admin'" routerLink="/admin">Configuración</button>
-                <button mat-menu-item>Cambiar contraseña</button>
-                <button mat-menu-item (click)="auth.signOut()">Salir</button>
-            </mat-menu>
+            <div *ngIf="auth.user$ | async as user; else icon">
+                <button class="sign-button" mat-button [matMenuTriggerFor]="menu">
+                    <mat-icon style="margin-right: 6px; color: silver;">account_circle</mat-icon>
+                    <span>{{user.displayName}}</span>
+                    <mat-icon>arrow_drop_down</mat-icon>
+                </button>
+                <mat-menu #menu="matMenu">
+                    <button mat-menu-item routerLink="/requests">Mi actividad</button>
+                    <button mat-menu-item routerLink="/new_request" fxShow="true" fxHide.gt-sm>Nueva Solicitud</button>
+                    <button mat-menu-item *ngIf="user.role=='admin'" routerLink="/admin">Configuración</button>
+                    <button mat-menu-item (click)="changePassword(user)">Cambiar contraseña</button>
+                    <button mat-menu-item (click)="auth.signOut()">Salir</button>
+                </mat-menu>
+            </div>
             <ng-template #icon>
                 <button class="sign-button" mat-button color="warn" (click)="login()">Sign in</button>
             </ng-template>

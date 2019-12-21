@@ -1,3 +1,7 @@
+import { DeleteUserComponent } from './../delete-user/delete-user.component';
+import { FormGroup, FormBuilder } from '@angular/forms';
+import { tap, startWith, map } from 'rxjs/operators';
+import { Observable, combineLatest } from 'rxjs';
 import { NewUserComponent } from './../new-user/new-user.component';
 import { AuthService } from './../../core/services/auth.service';
 import { MatPaginator, MatTableDataSource, MatSort, MatDialog } from '@angular/material';
@@ -14,37 +18,61 @@ export class AdminComponent implements OnInit {
   displayedColumns: string[] = ['index', 'displayName', 'email', 'phone', 'role', 'jobTitle', 'edit'];
   dataSource = new MatTableDataSource();
 
-  @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
-  @ViewChild(MatSort, { static: true }) sort: MatSort;
+  @ViewChild(MatPaginator, { static: false }) set content2(paginator: MatPaginator) {
+    this.dataSource.paginator = paginator;
+  }
+  @ViewChild(MatSort, { static: false }) set content(sort: MatSort) {
+    this.dataSource.sort = sort;
+  }
 
-  filteredUsers: Array<any> = [];
+  users$: Observable<any>
+
+  dataFormGroup: FormGroup
 
   constructor(
     public dbs: DatabaseService,
     public auth: AuthService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private fb: FormBuilder
   ) { }
 
   ngOnInit() {
 
-    /*this.dbs.currentDataUsers.subscribe(res => {
-      this.filteredUsers = res;
-      this.dataSource.data = res;
+    this.dataFormGroup = this.fb.group({
+      search: ""
     })
-    */
-    this.dataSource.paginator = this.paginator;
-    this.dataSource.sort = this.sort;
 
-  }
+    this.users$ =
+      combineLatest(
+        this.dbs.users$
+          .pipe(
+            map(user => {
+              let result = []
+              user.forEach((el, ind) => {
+                result.push(
+                  {
+                    ...el,
+                    index: ind
+                  }
+                )
+              })
+              return result
+            })
+          ),
+        this.dataFormGroup.get('search').valueChanges
+          .pipe(
+            startWith('')
+          )
+      )
+        .pipe(
+          map(([users, word]) => users.filter(user => user.displayName.toLowerCase().includes(word.toLowerCase()))),
+          tap(res => {
+            if (res) {
+              this.dataSource.data = res
+            }
+          })
+        )
 
-
-  filterData(ref: string) {
-    /* ref = ref.toLowerCase();
-     this.filteredUsers = this.dbs.users.filter(option =>
-       option['displayName'].toLowerCase().includes(ref) ||
-       option['email'].includes(ref));
- 
-     this.dataSource.data = this.filteredUsers;*/
   }
 
   createNewUser(): void {
@@ -60,9 +88,9 @@ export class AdminComponent implements OnInit {
   }
 
   deleteUser(user): void {
-    /* this.dialog.open(DeleteUserComponent,{
+    this.dialog.open(DeleteUserComponent,{
        data: user
-     })*/
+     })
   }
 
 }

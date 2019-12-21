@@ -37,6 +37,21 @@ export class DatabaseService {
         shareReplay(1)
       )
   }
+
+  addUser(data): Promise<any>{
+    return this.usersCollection.doc(data['uid']).ref.set(data);
+  }
+
+  updateUser(uid, data) {
+    const batch = this.af.firestore.batch();
+    const userRef = this.usersCollection.doc(uid).ref;
+    batch.update(userRef, data)
+
+    batch.commit().then(res => {
+      console.log('update user');
+
+    })
+  }
   getrequests() {
     this.requestsCollection = this.af.collection<any>(`requests`, ref => ref.orderBy('lastActivity', 'desc'));
     this.requests$ = this.requestsCollection.valueChanges()
@@ -81,18 +96,18 @@ export class DatabaseService {
     })
   }
 
-  updateRequest(uid, id, comment, respond: boolean,solved:boolean) {
+  updateRequest(uid, id, comment, respond: boolean, solved: boolean) {
     const batch = this.af.firestore.batch();
     const requestRef = this.requestsCollection.doc(id).ref
     if (respond) {
       batch.update(requestRef, { lastActivity: new Date(), status: 'Esperando Respuesta' })
     } else {
-      if(solved){
+      if (solved) {
         batch.update(requestRef, { lastActivity: new Date(), status: 'Resuelto' })
-      }else{
+      } else {
         batch.update(requestRef, { lastActivity: new Date(), status: 'Abierto' })
       }
-     
+
     }
 
     const userRef =
@@ -104,9 +119,9 @@ export class DatabaseService {
     if (respond) {
       batch.update(userRef, { lastActivity: new Date(), status: 'Esperando Respuesta' })
     } else {
-      if(solved){
+      if (solved) {
         batch.update(userRef, { lastActivity: new Date(), status: 'Resuelto' })
-      }else{
+      } else {
         batch.update(userRef, { lastActivity: new Date(), status: 'Abierto' })
       }
     }
@@ -170,12 +185,12 @@ export class DatabaseService {
     })
 
 
-    
+
   }
 
   sendEmail(message) {
     let doc = this.af.firestore.collection(`mail`).doc();
     doc.set(message)
   }
-  
+
 }
